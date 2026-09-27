@@ -7,10 +7,11 @@ import { site } from '../config';
 // Keep in step with the status block in the Serenata README.
 const milestones = [
   { n: 1, name: 'Ingestion and normalisation', detail: 'TED and eForms XML into a documented open dataset', status: 'In progress' },
-  { n: 2, name: 'Classifiers', detail: 'One written, falsifiable hypothesis per classifier, with measured error rates', status: 'Planned' },
+  { n: 2, name: 'Classifiers', detail: 'One written, falsifiable hypothesis per classifier, with measured error rates', status: 'In progress' },
   { n: 3, name: 'Entity resolution', detail: 'Buyers and suppliers matched against national company registers', status: 'Planned' },
   { n: 4, name: 'Public API', detail: 'Versioned bulk data', status: 'Planned' },
   { n: 5, name: 'Verification interface', detail: 'Every flag next to its hypothesis and its source notice', status: 'Planned' },
+  { n: 6, name: 'Documentation and onboarding', detail: 'Architecture docs, contributor guide, packaging', status: 'In progress' },
 ];
 const repoLabel = site.serenataRepo.replace(/^https:\/\//, '');
 ---
@@ -50,7 +51,9 @@ const repoLabel = site.serenataRepo.replace(/^https:\/\//, '');
         <p>
           Serenata Europa is the same method pointed at new territory: a written, falsifiable
           hypothesis behind every classifier, human verification before anything is published, and
-          every claim traceable back to the source record.
+          every claim traceable back to the source record. It's an independent project, though —
+          not run or endorsed by Open Knowledge Brasil, which carries no responsibility for anything
+          published here.
         </p>
       </div>
       <dl class="facts">
@@ -109,7 +112,12 @@ const repoLabel = site.serenataRepo.replace(/^https:\/\//, '');
         </table>
       </div>
       <div class="column prose after-table">
-        <p>There's nothing to look at yet. The code is public while it's being written.</p>
+        <p>
+          The ingestion pipeline runs against real TED notices, and a first classifier — flagging a
+          lot that drew one bid in a market where single bids are rare — is built and measured. No
+          flag has been published yet: verification, entity resolution, and a privacy review come
+          before that. The code is public while it's being written.
+        </p>
         <p class="repo"><a href={site.serenataRepo}>{repoLabel}</a></p>
       </div>
     </section>

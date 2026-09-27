@@ -1,0 +1,66 @@
+---
+// A tabletop progress clock: a circle split into segments that fill as an
+// incident escalates. With `arriving`, the last filled segment lands in
+// --flag a beat after the page loads.
+interface Props {
+  segments: number;
+  filled: number;
+  arriving?: boolean;
+  size?: number;
+  class?: string;
+}
+const { segments, filled, arriving = false, size = 96, class: className } = Astro.props;
+const r = 46;
+const at = (i: number) => {
+  const a = (i / segments) * 2 * Math.PI - Math.PI / 2;
+  return `${(50 + r * Math.cos(a)).toFixed(2)} ${(50 + r * Math.sin(a)).toFixed(2)}`;
+};
+const spokes = Array.from({ length: segments }, (_, i) => `M50 50 L${at(i)}`).join(' ');
+---
+<svg class:list={['clock', className]} viewBox="0 0 100 100" width={size} height={size} aria-hidden="true">
+  {Array.from({ length: filled }, (_, i) => (
+    <path
+      class:list={['clock__fill', { 'clock__fill--arriving': arriving && i === filled - 1 }]}
+      d={`M50 50 L${at(i)} A${r} ${r} 0 0 1 ${at(i + 1)} Z`}
+    />
+  ))}
+  <circle class="clock__line" cx="50" cy="50" r={r} />
+  <path class="clock__line" d={spokes} />
+</svg>
+
+<style>
+  .clock {
+    flex: none;
+    overflow: visible;
+  }
+
+  .clock__fill {
+    fill: var(--ink-soft);
+  }
+
+  .clock__fill--arriving {
+    fill: var(--flag);
+  }
+
+  .clock__line {
+    fill: none;
+    stroke: var(--ink);
+    stroke-width: var(--stroke-trail);
+    stroke-linejoin: round;
+    vector-effect: non-scaling-stroke;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .clock__fill--arriving {
+      transform-origin: 50px 50px;
+      animation: arrive 0.5s cubic-bezier(0.3, 0, 0.2, 1) 0.6s both;
+    }
+  }
+
+  @keyframes arrive {
+    from {
+      opacity: 0;
+      transform: scale(0.4);
+    }
+  }
+</style>

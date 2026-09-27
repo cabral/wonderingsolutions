@@ -1,6 +1,6 @@
 # wonderingsolutions.com
 
-Felipe Cabral's site. Astro, static output, no client-side JavaScript. The only motion is CSS (the mark drawing itself on the home page, the flag landing on /serenata), and both are skipped under `prefers-reduced-motion`.
+Felipe Cabral's site. Astro, static output, no client-side JavaScript. The only motion is CSS (the mark drawing itself on the home page, the flag landing on /serenata, the clock filling a segment on /agent-day), and all of it is skipped under `prefers-reduced-motion`.
 
 ## Run it
 
@@ -25,6 +25,8 @@ Node 22 or newer.
 | `src/components/SampleRecord.astro` | The flagged procurement record on /serenata |
 | `src/components/CirclePlan.astro` | The circle plan drawing and the three principles on /estaleiro |
 | `src/components/Notify.astro` | Email capture |
+| `src/components/Clock.astro` | The segmented incident clock on /agent-day |
+| `src/pages/agent-day.astro` | Agent Day offer page. Unlisted: linked from nowhere, not in the nav |
 | `src/content/notes/` | Notes as Markdown files |
 
 ## Writing a note
@@ -48,6 +50,8 @@ It shows up at `/notes/some-slug/` and on the Notes index.
 
 - `src/config.ts`: confirm the LinkedIn URL.
 - `src/config.ts`: set `notifyAction` to a real form endpoint (Buttondown, Formspree or similar). Until then "Notify me" opens an email to captain@wonderingsolutions.com.
+- `src/config.ts`: set `bookingUrl` (Cal.com or similar). Until then the /agent-day booking buttons open an email.
+- `src/pages/agent-day.astro`: invoicing entity, payment terms and public dates for open seats are still TODO.
 - `src/components/SampleRecord.astro`: replace the illustrative values with a real TED notice and drop the "Illustrative" caption.
 - `src/pages/serenata.astro`: keep the milestone table in step with the Serenata README.
 

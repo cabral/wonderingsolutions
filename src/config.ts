@@ -5,18 +5,21 @@ export const site = {
   city: 'Stockholm',
   email: 'captain@wonderingsolutions.com',
   // TODO: confirm the LinkedIn profile URL before launch.
-  linkedin: 'https://www.linkedin.com/in/felipecabral/',
+  linkedin: 'https://www.linkedin.com/in/felipe-benites/',
   // GitHub is linked from /serenata only, on purpose.
   serenataRepo: 'https://github.com/cabral/serenata',
   // Form endpoint for "Notify me" (Buttondown, Formspree, etc.).
   // Leave empty and the form falls back to a pre-filled email.
   notifyAction: '',
+  // Booking link for /agent-day (Cal.com or similar).
+  // Leave empty and the booking buttons fall back to a pre-filled email.
+  bookingUrl: '',
 };
 
 export const nav = [
   { href: '/work/', label: 'Work' },
   { href: '/serenata/', label: 'Serenata' },
   { href: '/estaleiro/', label: 'Estaleiro' },
-  { href: '/notes/', label: 'Notes' },
+  // { href: '/notes/', label: 'Notes' },
   { href: '/about/', label: 'About' },
 ];

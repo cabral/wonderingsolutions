@@ -1,0 +1,577 @@
+---
+// Unlisted on purpose: reachable by link, left out of the nav.
+// Co-brand is text only until the Accelerated Growth logo is approved.
+import Base from '../layouts/Base.astro';
+import Clock from '../components/Clock.astro';
+import { site } from '../config';
+
+const book = (subject: string) =>
+  site.bookingUrl || `mailto:${site.email}?subject=${encodeURIComponent(subject)}`;
+
+const gets = [
+  "Working agents on your team's own tasks, the same day.",
+  'A rehearsed response to an AI incident, before a real one happens.',
+  "A written AI literacy record per participant, one of the measures the EU AI Act's Article 4 asks for. This is not legal advice.",
+  'Usage numbers 30 days later.',
+];
+
+const day = [
+  { time: 'Before', block: 'Intake and tech check', what: 'Each participant lists three repetitive tasks; the sponsor ranks them; tool access is confirmed or the sandbox is prepared.', output: 'Task shortlist, access confirmed' },
+  { time: '09:00', block: 'Kickoff', length: '30 min', what: 'The sponsor says why the day matters. A live agent build on your own example. Agent Radar: what changed in agents this month.', output: 'Shared goal' },
+  { time: '09:30', block: 'Agent 1, the desk agent', length: '75 min', what: 'A grounded assistant for a recurring deliverable such as a status report, meeting prep or policy answers. Instructions written as a job description, the right files attached, five real test inputs.', output: 'Working agent and its agent card' },
+  { time: '10:45', block: 'Break', length: '15 min' },
+  { time: '11:00', block: 'Agent 2, the flow agent', length: '75 min', what: 'A multi-step agent that takes an action behind a human approval step, such as triaging requests, drafting replies or updating a tracker.', output: 'Working agent with a checkpoint' },
+  { time: '12:15', block: 'Walk-out check and lunch', length: '60 min', what: 'Every agent runs on real inputs; the guarantee is decided here.', output: 'Go or stop' },
+  { time: '13:15', block: 'Agent Fire Drill', length: '120 min', what: 'A tabletop incident on the agents the team just built.', output: 'Incident log, one fix per agent' },
+  { time: '15:15', block: 'Break', length: '15 min' },
+  { time: '15:30', block: 'Commit', length: '45 min', what: 'Agent cards finished: purpose, data touched, owner, human checkpoint, off switch. Each owner sets a 30-day usage target and times one run to measure minutes saved.', output: 'Agent cards, 30-day targets' },
+  { time: '16:15', block: 'Close', length: '15 min', what: 'Literacy records issued, incident decks handed out.', output: 'Records, decks' },
+  { time: 'Day 30', block: 'Clinic', length: '60 min remote', what: 'Fix what broke, compare usage with targets, report numbers to the sponsor.', output: 'Adoption numbers' },
+];
+
+const takeaways = [
+  'An agent card for each agent: one page on what it does, which data it touches, who owns it and how to switch it off.',
+  'An AI literacy record per participant: topics, systems used, risks covered, date, trainer.',
+  'A printed incident deck per team to rerun drills.',
+  'A sheet of the instruction patterns that worked on the day.',
+];
+
+// Illustrative state, partway through a drill.
+const board = [
+  { name: 'Data exposure', segments: 6, filled: 2, note: '6 segments' },
+  { name: 'Trust', segments: 6, filled: 1, note: '6 segments, fills as trust erodes' },
+  { name: 'Deadline', segments: 4, filled: 3, note: '4 segments' },
+];
+
+const deck = [
+  { name: 'The helpful email', what: 'An inbound email hides instructions, and the flow agent forwards a contract to an outside address.', risk: 'ASI01 Agent Goal Hijack', control: 'Outside content is data, never instructions; approval before any external send.' },
+  { name: 'The confident number', what: 'The desk agent puts a wrong revenue figure into a steering-committee report, and nobody checks.', risk: 'ASI09 Human-Agent Trust Exploitation', control: 'Cited sources, a figure check, owner sign-off.' },
+  { name: 'The wide door', what: 'The agent can read all of SharePoint and hands salary data to a curious colleague.', risk: 'ASI03 Identity and Privilege Abuse', control: 'Least privilege, scoped knowledge.' },
+  { name: 'The wrong delete', what: 'An agent with write access cleans up the wrong folder.', risk: 'ASI02 Tool Misuse and Exploitation', control: 'Read-only by default, backups, human approval for destructive actions.' },
+  { name: 'The loop', what: 'Two agents trigger each other and send 400 messages overnight.', risk: 'ASI08 Cascading Failures', control: 'Rate limits, monitoring, an off switch.' },
+  { name: 'The shadow agent', what: 'A colleague connects a personal open-source agent to company mail, and a community skill steals credentials.', risk: 'ASI04 Agentic Supply Chain', control: 'An approved-tools list, skill vetting.' },
+  { name: 'The poisoned memory', what: "Someone plants a false rule in the agent's knowledge file.", risk: 'ASI06 Memory and Context Poisoning', control: 'Change control on knowledge files.' },
+];
+
+// TODO: invoicing entity and payment terms. Public dates for open seats.
+const formats = [
+  { name: 'Agent Day', for: 'A team', length: '6 h on site, plus a 60 min clinic on day 30', group: 'Up to 12', price: 95000, included: 'Build, Fire Drill, agent cards, literacy records, a printed incident deck per team, the 30-day clinic.' },
+  { name: 'Two Agents in Three Hours', for: 'A team', length: '3 h', group: 'Up to 10', price: 35000, included: 'The build half, agent cards, literacy records.' },
+  { name: 'Agent Fire Drill for leaders', for: 'A leadership team or board', length: '90 min', group: 'Up to 10', price: 25000, included: 'Executive scenario, escalation map, decision log. The fee is credited in full to an Agent Day booked within 60 days.' },
+  { name: 'Open seat', for: 'Individuals and small firms', length: '3 h at Accelerated Growth, Birger Jarlsgatan 8, Stockholm', group: 'Up to 12', price: 6900, perSeat: true, included: 'Two Agents in Three Hours on a public date.' },
+];
+
+const evidence = [
+  { choice: 'Six hours plus a day-30 clinic', text: 'Only 36% of employees feel adequately trained. Those with five or more hours of training, especially in person with coaching, are significantly more likely to become regular users.', sources: ['https://www.bcg.com/press/26june2025-beyond-ai-adoption-full-potential'] },
+  { choice: 'The sponsor opens the day; leaders get their own drill', text: 'With strong leadership support, the share of frontline employees positive about GenAI rises from 15% to 55%. Only a quarter get that support.', sources: ['https://www.unleash.ai/artificial-intelligence/analysis/bcgs-ai-at-work-2025-report-four-takeaways-for-hr-leaders'] },
+  { choice: 'Shadow agents in the deck', text: '54% of employees say they would use AI tools even if not authorized.', sources: ['https://www.hpcwire.com/bigdatawire/this-just-in/bcg-report-companies-must-go-beyond-ai-adoption-to-realize-its-full-potential/'] },
+  { choice: 'A drill on the agents they just built', text: 'The OWASP Top 10 for Agentic Applications, published 9 December 2025, is built from real 2025 incidents, including a crafted email that made Microsoft 365 Copilot leak data with zero clicks.', sources: ['https://cycode.com/blog/owasp-top-10-agentic-applications/'] },
+  { choice: 'A leadership tabletop', text: 'NACD advises boards to run AI-specific tabletop exercises that test escalation triggers and decision authority.', sources: ['https://www.nacdonline.org/all-governance/governance-resources/directorship-magazine/online-exclusives/2026/q-1-2026/ai-incident-tabletop-exercises/'] },
+  { choice: 'A literacy record per participant', text: 'Article 4 has applied since 2 February 2025 to every provider and deployer of AI systems. Since 27 July 2026 the duty is to take measures that support AI literacy, without guaranteeing a level, and national supervision started on 2 August 2026.', sources: ['https://presencis.com/regulations/eu-ai-act/definitions/ai-literacy/', 'https://www.provimedia.de/en/blog/ai-literacy-certificate-eu-ai-act-2026'] },
+];
+const host = (url: string) => new URL(url).hostname.replace(/^www\./, '');
+
+const faq = [
+  { q: 'Do we need Copilot or another AI licence?', a: 'No. We build in the tools you already license. If you have none, we use the sandbox, and your team leaves with agent designs ready for whichever tool you choose.' },
+  { q: 'Is our data safe?', a: 'We only use data you approve. In the sandbox we work with fictional company documents and no personal data. Agents built in your tenant stay in your tenant.' },
+  { q: 'What if our IT blocks agent publishing?', a: "That's common. Teams build in the sandbox, and each agent card lists the approvals IT would need, so you leave with a clear request." },
+  { q: 'Do participants need technical skills?', a: 'No. If they can write a clear email, they can write agent instructions. Nobody writes code.' },
+  { q: 'Who should come?', a: 'People who own a repetitive deliverable: project and change managers, team leads, analysts, coordinators. Up to 12 per Agent Day.' },
+  { q: 'How does the walk-out guarantee work?', a: 'At lunch, every agent runs on real inputs. If your team has no working agent on one of its own tasks, we stop and you pay nothing. It applies when the intake and tech check were done.' },
+  { q: 'Does this make us compliant with the AI Act?', a: 'It gives you a documented AI literacy measure for every participant. Since 27 July 2026, Article 4 asks providers and deployers to take measures that support AI literacy. Whether your measures are enough is a question for your legal team. This is not legal advice.' },
+  { q: 'Can we run it remotely?', a: 'The build half works well remotely. The Fire Drill works best in the room; the remote version runs on a shared online board.' },
+  { q: 'What happens after the day?', a: 'A 60-minute remote clinic on day 30. We fix what broke, compare usage with each owner\'s target and send the numbers to your sponsor.' },
+  { q: 'Can we start with leadership only?', a: 'Yes. The Agent Fire Drill for leaders takes 90 minutes, and its fee is credited in full if you book an Agent Day within 60 days.' },
+  { q: 'What language is it in?', a: 'English. Swedish materials on request.' },
+  { q: 'Where does it happen?', a: 'At your office, or at Accelerated Growth, Birger Jarlsgatan 8, Stockholm.' },
+];
+---
+<Base
+  title="Agent Day"
+  description="A one-day training where your team builds two working AI agents on its own tasks before lunch, then runs an incident drill on them after. Delivered with Accelerated Growth."
+>
+  <div class="wrap">
+    <header class="page-head">
+      <Clock segments={6} filled={3} arriving size={112} class="hero-clock" />
+      <p class="label eyebrow">Agent Day</p>
+      <h1 class="display agent-title">Build two agents before lunch. Survive their first incident after.</h1>
+      <div class="column prose intro">
+        <p class="lede">
+          Agent Day is a one-day, hands-on training where a team builds two working AI agents on its
+          own tasks before lunch, then keeps them alive through a live incident drill after lunch.
+          Delivered by Felipe Cabral with <a href="https://acceleratedgrowth.se">Accelerated Growth</a>.
+        </p>
+        <p>
+          It's for heads of transformation, IT, HR or L&amp;D at companies that already pay for
+          Copilot, ChatGPT, Claude or Gemini and can't yet show what teams do with it. Participants
+          are project managers, change managers, team leads, analysts and anyone with repetitive
+          knowledge work.
+        </p>
+      </div>
+      <p class="cta">
+        <a class="button" href={book('Agent Day intro call')}>Book an intro call</a>
+        {!site.bookingUrl && <span class="small">Opens an email to {site.email}.</span>}
+      </p>
+    </header>
+
+    <section class="section first" aria-labelledby="get">
+      <h2 id="get">What you get</h2>
+      <ul class="column prose list">
+        {gets.map((g) => <li>{g}</li>)}
+      </ul>
+    </section>
+
+    <section class="section" aria-labelledby="day">
+      <h2 id="day">How the day runs</h2>
+      <p class="column">Six hours on site, plus a 60-minute clinic on day 30.</p>
+      <ol class="day">
+        {day.map((d) => (
+          <li class:list={['day__row', { 'is-break': !d.what }]}>
+            <span class="day__time">{d.time}</span>
+            <div>
+              <p>
+                <span class="day__block">{d.block}</span>
+                {d.length && <span class="day__length">, {d.length}</span>}
+              </p>
+              {d.what && <p class="day__what">{d.what}</p>}
+              {d.output && <p class="small day__output">Output: {d.output}</p>}
+            </div>
+          </li>
+        ))}
+      </ol>
+
+      <h3 class="sub">What the team takes home</h3>
+      <ul class="column prose list">
+        {takeaways.map((t) => <li>{t}</li>)}
+      </ul>
+
+      <h3 class="sub">Tools</h3>
+      <div class="column prose">
+        <p>
+          Teams build in what the client already licenses, such as Microsoft 365 Copilot and Copilot
+          Studio, ChatGPT, Claude or Gemini. Where a tenant blocks agent publishing, teams build in a
+          sandbox with Spendwise, a fictional company with realistic documents, so no real data is
+          needed. The agent card records what needs IT approval, so a blocked connector becomes a
+          governance lesson instead of a dead end.
+        </p>
+        <p>Delivered in English; Swedish materials on request.</p>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="drill">
+      <h2 id="drill">The Agent Fire Drill</h2>
+      <div class="column prose">
+        <p class="lede">
+          The Fire Drill is a tabletop exercise run by a game master. The morning's agents meet
+          realistic failures under time pressure, and the team has to contain, investigate,
+          communicate and fix.
+        </p>
+      </div>
+
+      <figure class="board">
+        <ul class="board__clocks">
+          {board.map((c) => (
+            <li>
+              <Clock segments={c.segments} filled={c.filled} size={88} />
+              <span class="board__name">{c.name}</span>
+              <span class="small">{c.note}</span>
+            </li>
+          ))}
+        </ul>
+        <figcaption class="column">
+          Three clocks on a shared board. Slow or wrong calls fill segments; good controls block
+          them. A full clock fires a consequence card, such as a regulator's letter, a customer post
+          or a CFO escalation.
+        </figcaption>
+      </figure>
+
+      <ul class="column prose list">
+        <li>Roles rotate each round: agent owner, security, legal and compliance, communications, business lead.</li>
+        <li>A new inject lands every 8 to 10 minutes, and every decision goes in the log.</li>
+        <li>In the debrief, each failure maps to a control, and the control goes into the agent card.</li>
+      </ul>
+
+      <h3 class="sub">The core deck</h3>
+      <ul class="deck">
+        {deck.map((c) => (
+          <li class="card">
+            <h4 class="card__name">{c.name}</h4>
+            <p>{c.what}</p>
+            <dl class="card__fields">
+              <div class="field"><dt>OWASP agentic risk</dt><dd>{c.risk}</dd></div>
+              <div class="field"><dt>Control the team writes in</dt><dd>{c.control}</dd></div>
+            </dl>
+          </li>
+        ))}
+      </ul>
+
+      <h3 class="sub">For leaders</h3>
+      <div class="column prose">
+        <p>
+          The same engine in 90 minutes with executive injects: a journalist's question, customer
+          harm, a supervisory authority asking which AI literacy measures exist, and the call on when
+          to tell the board. Output: an escalation map and a decision log.
+        </p>
+        <p class="strong-link"><a href={book('Agent Fire Drill for leaders')}>Book a leadership drill</a></p>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="prices">
+      <h2 id="prices">Formats and prices</h2>
+      <div class="rows">
+        {formats.map((f) => (
+          <article class="row">
+            <div>
+              <h3 class="title">{f.name}</h3>
+              <p class="row__price">
+                {f.price.toLocaleString('en-US')} SEK ex VAT{f.perSeat && ' per seat'}
+              </p>
+            </div>
+            <dl class="row__fields">
+              <div class="field"><dt>For</dt><dd>{f.for}</dd></div>
+              <div class="field"><dt>Group</dt><dd>{f.group}</dd></div>
+              <div class="field wide"><dt>Length</dt><dd>{f.length}</dd></div>
+              <div class="field wide"><dt>Included</dt><dd>{f.included}</dd></div>
+            </dl>
+          </article>
+        ))}
+      </div>
+      <p class="column after-rows">A full Agent Day works out to about 7,900 SEK a seat.</p>
+
+      <h3 class="sub">Guarantees</h3>
+      <div class="guarantees">
+        <div class="guarantee">
+          <h4 class="title">Walk-out guarantee</h4>
+          <p>
+            If your team has no working agent on one of its own tasks by lunch, we stop the day and
+            you pay nothing. "Working" means it runs on five real inputs and produces output its owner
+            would use. It applies when the intake and tech check were done.
+          </p>
+        </div>
+        <div class="guarantee">
+          <h4 class="title">Adoption guarantee</h4>
+          <p>
+            If fewer than half the participants use one of their agents weekly by day 30, the clinic
+            is repeated free.
+          </p>
+        </div>
+      </div>
+      <p class="column after-rows">
+        Your effort: a 20-minute intake form per participant and a 30-minute tech check. Everything
+        else is on us.
+      </p>
+    </section>
+
+    <section class="section" aria-labelledby="why">
+      <h2 id="why">Why this format</h2>
+      <div class="rows">
+        {evidence.map((e) => (
+          <article class="row">
+            <h3 class="row__choice">{e.choice}</h3>
+            <div>
+              <p>{e.text}</p>
+              <p class="small row__sources">
+                {e.sources.map((s) => <a href={s}>Source: {host(s)}</a>)}
+              </p>
+            </div>
+          </article>
+        ))}
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="who">
+      <h2 id="who">Who runs it</h2>
+      <div class="column prose">
+        <p>
+          Felipe Cabral has spent about 15 years across startups, engineering leadership, data
+          science and civic tech. He co-founded <a href="/serenata/#brazil">Operação Serenata de
+          Amor</a>, an open-source AI project that analysed 3 million public expense claims in Brazil
+          and led to 629 formal complaints, and he co-founded Civic Tech Stockholm. Today he designs
+          and ships production AI, including retrieval-augmented assistants, recommendation systems
+          and agent workflows, for global manufacturers, and designs AI training for business teams.
+          He also runs tabletop games, which is where the Fire Drill comes from.
+        </p>
+        <p>
+          Agent Day is delivered with Accelerated Growth, founded in 2014, advisors and executors in
+          digital transformation, with offices in Stockholm and Malmö.
+        </p>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="faq">
+      <h2 id="faq">Questions</h2>
+      <div class="faq">
+        {faq.map((f) => (
+          <details>
+            <summary>{f.q}</summary>
+            <p>{f.a}</p>
+          </details>
+        ))}
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="book">
+      <h2 id="book">Book a call</h2>
+      <div class="column prose">
+        <p>Agent Day runs at your office, or at Accelerated Growth, Birger Jarlsgatan 8, Stockholm.</p>
+        <p>
+          To start with leadership only, <a href={book('Agent Fire Drill for leaders')}>book a
+          leadership drill</a>. Its fee is credited in full to an Agent Day booked within 60 days.
+        </p>
+      </div>
+      <p class="cta">
+        <a class="button" href={book('Agent Day intro call')}>Book an intro call</a>
+        {!site.bookingUrl && <span class="small">Opens an email to {site.email}.</span>}
+      </p>
+      <p class="small cobrand">Agent Day. Delivered with Accelerated Growth.</p>
+    </section>
+  </div>
+</Base>
+
+<style>
+  .page-head :global(.hero-clock) {
+    margin-bottom: var(--space-8);
+  }
+
+  .eyebrow {
+    margin-bottom: var(--space-4);
+  }
+
+  .agent-title {
+    max-width: 18ch;
+  }
+
+  .intro {
+    margin-top: var(--space-8);
+  }
+
+  .cta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-2) var(--space-4);
+    margin-top: var(--space-8);
+  }
+
+  .first {
+    padding-top: var(--space-8);
+  }
+
+  .list {
+    padding-left: 1.25em;
+  }
+
+  .sub {
+    font: var(--title);
+    margin: var(--space-12) 0 var(--space-4);
+  }
+
+  .strong-link {
+    font-weight: 600;
+  }
+
+  /* The day: a real sequence, so the times lead */
+  .day {
+    list-style: none;
+    padding: 0;
+    max-width: 56rem;
+    margin-top: var(--space-8);
+    border-bottom: var(--stroke-hair) solid var(--line);
+  }
+
+  .day__row {
+    display: grid;
+    gap: var(--space-1) var(--space-8);
+    border-top: var(--stroke-hair) solid var(--line);
+    padding-block: var(--space-4);
+  }
+
+  @media (min-width: 768px) {
+    .day__row {
+      grid-template-columns: 6rem minmax(0, var(--measure));
+    }
+  }
+
+  .day__time {
+    font: var(--title);
+  }
+
+  .day__block {
+    font-weight: 600;
+  }
+
+  .day__length {
+    color: var(--ink-soft);
+  }
+
+  .day__what {
+    margin-top: var(--space-1);
+  }
+
+  .day__output {
+    margin-top: var(--space-2);
+  }
+
+  .is-break,
+  .is-break .day__time,
+  .is-break .day__block {
+    font: var(--small);
+    color: var(--ink-soft);
+  }
+
+  /* The board: three clocks, then what they mean */
+  .board {
+    margin-block: var(--space-12) var(--space-8);
+  }
+
+  .board__clocks {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-8) var(--space-12);
+    list-style: none;
+    padding: 0;
+    margin-bottom: var(--space-4);
+  }
+
+  .board__clocks li {
+    display: grid;
+    justify-items: start;
+    gap: var(--space-1);
+  }
+
+  .board__clocks :global(.clock) {
+    margin-bottom: var(--space-2);
+  }
+
+  .board__name {
+    font-weight: 600;
+  }
+
+  .deck {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 20rem), 1fr));
+    gap: var(--space-4);
+    list-style: none;
+    padding: 0;
+  }
+
+  .card {
+    display: grid;
+    align-content: start;
+    gap: var(--space-4);
+    padding: var(--space-4);
+    background: var(--raised);
+    border-top: var(--stroke-trail) solid var(--flag);
+  }
+
+  .card__name {
+    font: 500 1.5rem / 1.2 var(--font-serif);
+  }
+
+  .card__fields {
+    display: grid;
+    gap: var(--space-2);
+  }
+
+  /* Name on the left, detail on the right, like the home page entries */
+  .rows {
+    max-width: 60rem;
+    border-bottom: var(--stroke-hair) solid var(--line);
+  }
+
+  .row {
+    display: grid;
+    gap: var(--space-4) var(--space-8);
+    border-top: var(--stroke-hair) solid var(--line);
+    padding-block: var(--space-8);
+  }
+
+  @media (min-width: 768px) {
+    .row {
+      grid-template-columns: 16rem minmax(0, 1fr);
+    }
+  }
+
+  .row__price {
+    margin-top: var(--space-1);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .row__fields {
+    display: grid;
+    gap: var(--space-4);
+  }
+
+  @media (min-width: 560px) {
+    .row__fields {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .row__fields .wide {
+      grid-column: 1 / -1;
+    }
+  }
+
+  .row__choice {
+    font: var(--body);
+    font-weight: 600;
+  }
+
+  .row__sources {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-1) var(--space-4);
+    margin-top: var(--space-2);
+  }
+
+  .after-rows {
+    margin-top: var(--space-4);
+  }
+
+  .guarantees {
+    display: grid;
+    gap: var(--space-8);
+    max-width: 60rem;
+  }
+
+  @media (min-width: 768px) {
+    .guarantees {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  .guarantee {
+    display: grid;
+    align-content: start;
+    gap: var(--space-2);
+    border-top: var(--stroke-trail) solid var(--ink);
+    padding-top: var(--space-4);
+  }
+
+  .faq {
+    max-width: var(--measure);
+    border-bottom: var(--stroke-hair) solid var(--line);
+  }
+
+  .faq details {
+    border-top: var(--stroke-hair) solid var(--line);
+  }
+
+  .faq summary {
+    padding-block: var(--space-4);
+    font-weight: 600;
+    cursor: pointer;
+  }
+
+  .faq summary:hover {
+    color: var(--mark-ink);
+  }
+
+  .faq details p {
+    padding-bottom: var(--space-4);
+  }
+
+  .cobrand {
+    margin-top: var(--space-12);
+  }
+</style>
