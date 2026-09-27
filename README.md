@@ -57,4 +57,6 @@ It shows up at `/notes/some-slug/` and on the Notes index.
 
 ## Deploying
 
-`dist/` is plain static files, so any static host works (Cloudflare Pages, Netlify, GitHub Pages). Build command `npm run build`, output directory `dist`. Point wonderingsolutions.com at it.
+`.github/workflows/deploy.yml` builds the site and publishes `dist/` to GitHub Pages on every push to `main` (or by hand from the Actions tab). In the repo's Settings > Pages, "Source" has to be "GitHub Actions". If it's left on "Deploy from a branch", GitHub runs Jekyll over the Astro sources and the build fails.
+
+The custom domain lives in `public/CNAME`, which Astro copies into `dist/`.
