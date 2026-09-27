@@ -1,0 +1,135 @@
+---
+// A conversation circle drawn as a furniture plan, with the three
+// principles as its legend. Static SVG, no script.
+const principles = [
+  'Whoever raises a question leads the discussion.',
+  'What belongs to one belongs to all.',
+  'Everyone follows their own path while growing as a network.',
+];
+---
+<figure class="plan">
+  <svg class="plan__drawing" viewBox="0 0 460 350" role="img" aria-labelledby="plan-title">
+    <title id="plan-title">Plan view of a conversation circle: twelve seats around an open centre.</title>
+
+    <!-- open floor in the middle -->
+    <circle class="hair dashed" cx="200" cy="180" r="92" />
+    <circle class="hair" cx="200" cy="180" r="2" />
+
+    <!-- twelve seats, 2:1 like a tatami -->
+    <rect class="seat" x="186.0" y="55.0" width="28" height="14" transform="rotate(0 200.0 62.0)" />
+    <rect class="seat" x="245.0" y="70.8" width="28" height="14" transform="rotate(30 259.0 77.8)" />
+    <rect class="seat seat--lead" x="288.2" y="114.0" width="28" height="14" transform="rotate(60 302.2 121.0)" />
+    <rect class="seat" x="304.0" y="173.0" width="28" height="14" transform="rotate(90 318.0 180.0)" />
+    <rect class="seat" x="288.2" y="232.0" width="28" height="14" transform="rotate(120 302.2 239.0)" />
+    <rect class="seat" x="245.0" y="275.2" width="28" height="14" transform="rotate(150 259.0 282.2)" />
+    <rect class="seat" x="186.0" y="291.0" width="28" height="14" transform="rotate(180 200.0 298.0)" />
+    <rect class="seat" x="127.0" y="275.2" width="28" height="14" transform="rotate(210 141.0 282.2)" />
+    <rect class="seat" x="83.8" y="232.0" width="28" height="14" transform="rotate(240 97.8 239.0)" />
+    <rect class="seat" x="68.0" y="173.0" width="28" height="14" transform="rotate(270 82.0 180.0)" />
+    <rect class="seat" x="83.8" y="114.0" width="28" height="14" transform="rotate(300 97.8 121.0)" />
+    <rect class="seat" x="127.0" y="70.8" width="28" height="14" transform="rotate(330 141.0 77.8)" />
+
+    <!-- dimension line -->
+    <g class="hair">
+      <line x1="68" y1="330" x2="332" y2="330" />
+      <line x1="68" y1="323" x2="68" y2="337" />
+      <line x1="332" y1="323" x2="332" y2="337" />
+      <line x1="68" y1="190" x2="68" y2="318" class="dashed" />
+      <line x1="332" y1="190" x2="332" y2="318" class="dashed" />
+    </g>
+    <text class="plan__dim" x="200" y="346" text-anchor="middle">twelve seats, no head of the table</text>
+
+    <!-- the note where the key decision sits -->
+    <path class="note-line" d="M314 112 Q340 80 352 62" />
+    <text class="plan__note" x="346" y="34">
+      <tspan x="346" dy="0">whoever asks</tspan>
+      <tspan x="346" dy="18">leads</tspan>
+    </text>
+  </svg>
+
+  <figcaption class="plan__legend">
+    <p class="label">Three principles</p>
+    <ol>
+      {principles.map((p) => <li>{p}</li>)}
+    </ol>
+  </figcaption>
+</figure>
+
+<style>
+  .plan {
+    display: grid;
+    gap: var(--space-8);
+    align-items: center;
+  }
+
+  @media (min-width: 900px) {
+    .plan {
+      grid-template-columns: minmax(0, 30rem) minmax(0, 22rem);
+    }
+  }
+
+  .plan__drawing {
+    width: 100%;
+    height: auto;
+    color: var(--line);
+  }
+
+  .hair,
+  .hair line {
+    fill: none;
+    stroke: var(--line);
+    stroke-width: var(--stroke-hair);
+    vector-effect: non-scaling-stroke;
+  }
+
+  .dashed {
+    stroke-dasharray: 3 4;
+  }
+
+  .seat {
+    fill: var(--lichen);
+    stroke: var(--line);
+    stroke-width: var(--stroke-hair);
+    vector-effect: non-scaling-stroke;
+  }
+
+  .seat--lead {
+    fill: var(--mark);
+  }
+
+  .note-line {
+    fill: none;
+    stroke: var(--mark-ink);
+    stroke-width: var(--stroke-hair);
+    vector-effect: non-scaling-stroke;
+  }
+
+  .plan__note {
+    font-family: var(--font-serif);
+    font-size: 17px;
+    fill: var(--mark-ink);
+  }
+
+  .plan__dim {
+    font-family: var(--font-sans);
+    font-size: 12px;
+    fill: var(--ink-soft);
+  }
+
+  .plan__legend ol {
+    margin-top: var(--space-4);
+    padding: 0;
+    list-style: none;
+    counter-reset: p;
+  }
+
+  .plan__legend li {
+    border-top: var(--stroke-hair) solid var(--line);
+    padding-block: var(--space-4);
+    font: var(--essay);
+  }
+
+  .plan__legend li:last-child {
+    border-bottom: var(--stroke-hair) solid var(--line);
+  }
+</style>

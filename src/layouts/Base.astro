@@ -1,0 +1,176 @@
+---
+import '../styles/global.css';
+import Mark from '../components/Mark.astro';
+import { site, nav } from '../config';
+
+interface Props {
+  title?: string;
+  description: string;
+}
+
+const { title, description } = Astro.props;
+const fullTitle = title ? `${title}, ${site.name}` : `${site.name}, ${site.person}`;
+const canonical = new URL(Astro.url.pathname, Astro.site);
+const path = Astro.url.pathname.replace(/\/?$/, '/');
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <meta name="theme-color" content="#F1F2EE" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#141C33" media="(prefers-color-scheme: dark)" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={site.name} />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta name="author" content={site.person} />
+  </head>
+  <body>
+    <a class="skip" href="#main">Skip to content</a>
+
+    <header class="site-header">
+      <div class="wrap site-header__inner">
+        <a class="brand" href="/" aria-label={`${site.name}, home`}>
+          <Mark size={34} />
+          <span class="brand__word">{site.name}</span>
+        </a>
+        <nav aria-label="Main">
+          <ul class="nav">
+            {nav.map((item) => (
+              <li>
+                <a
+                  href={item.href}
+                  aria-current={path.startsWith(item.href) ? 'page' : undefined}
+                >
+                  {item.label}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <main id="main">
+      <slot />
+    </main>
+
+    <footer class="site-footer">
+      <div class="wrap site-footer__inner">
+        <p class="site-footer__who">{site.person}, {site.city}.</p>
+        <ul class="site-footer__links">
+          <li><a href={`mailto:${site.email}`}>{site.email}</a></li>
+          <li><a href={site.linkedin} rel="me">LinkedIn</a></li>
+        </ul>
+        <p class="site-footer__line">Hard terrain, one switchback at a time.</p>
+      </div>
+    </footer>
+  </body>
+</html>
+
+<style>
+  .site-header {
+    border-bottom: var(--stroke-hair) solid var(--line);
+  }
+
+  .site-header__inner {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-4) var(--space-8);
+    padding-block: var(--space-4);
+  }
+
+  .brand {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    text-decoration: none;
+    color: var(--ink);
+  }
+
+  .brand:hover {
+    color: var(--ink);
+  }
+
+  .brand__word {
+    font: 500 1.375rem / 1 var(--font-serif);
+    letter-spacing: -0.005em;
+  }
+
+  .nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-1) var(--space-4);
+    list-style: none;
+    padding: 0;
+  }
+
+  .nav a {
+    display: inline-block;
+    padding-block: var(--space-2);
+    text-decoration: none;
+    font: var(--small);
+    font-weight: 600;
+    color: var(--ink);
+    border-bottom: var(--stroke-trail) solid transparent;
+  }
+
+  .nav a:hover {
+    color: var(--mark-ink);
+  }
+
+  .nav a[aria-current='page'] {
+    border-bottom-color: var(--ink);
+  }
+
+  .site-footer {
+    background: var(--hakama);
+    color: var(--on-hakama);
+    margin-top: var(--section-gap);
+  }
+
+  .site-footer__inner {
+    display: grid;
+    gap: var(--space-2);
+    padding-block: var(--space-12);
+    font: var(--small);
+  }
+
+  .site-footer__who {
+    font: var(--title);
+  }
+
+  .site-footer__links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2) var(--space-8);
+    list-style: none;
+    padding: 0;
+  }
+
+  .site-footer a {
+    text-decoration-color: var(--lichen);
+  }
+
+  .site-footer a:hover {
+    color: var(--mark);
+  }
+
+  .site-footer :focus-visible {
+    outline-color: var(--mark);
+  }
+
+  .site-footer__line {
+    margin-top: var(--space-4);
+    font-family: var(--font-serif);
+    font-size: 1.0625rem;
+  }
+</style>

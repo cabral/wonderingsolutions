@@ -1,0 +1,68 @@
+---
+// The switchback W with the cloudberry dot. Line follows currentColor.
+interface Props {
+  size?: number;
+  draw?: boolean;
+  class?: string;
+  label?: string;
+}
+const { size = 32, draw = false, class: className, label } = Astro.props;
+const height = Math.round((size * 100) / 128);
+---
+<svg
+  class:list={['mark', { 'mark--draw': draw }, className]}
+  viewBox="0 0 128 100"
+  width={size}
+  height={height}
+  role={label ? 'img' : undefined}
+  aria-label={label}
+  aria-hidden={label ? undefined : 'true'}
+>
+  <path
+    class="mark__trail"
+    d="M14 30 L34 80 Q39 92 44 80 L58 46 Q64 32 70 46 L84 80 Q89 92 94 80 L114 30"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="10"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    pathLength="1"
+  ></path>
+  <circle class="mark__dot" cx="64" cy="16" r="8" fill="var(--mark)"></circle>
+</svg>
+
+<style>
+  .mark {
+    flex: none;
+    overflow: visible;
+  }
+
+  /* The one moment of motion on the site: the trail draws, the dot lands last. */
+  @media (prefers-reduced-motion: no-preference) {
+    .mark--draw .mark__trail {
+      stroke-dasharray: 1;
+      stroke-dashoffset: 1;
+      animation: walk 1.6s cubic-bezier(0.45, 0, 0.25, 1) 0.2s forwards;
+    }
+
+    .mark--draw .mark__dot {
+      opacity: 0;
+      transform: translateY(-10px);
+      transform-box: fill-box;
+      animation: land 0.45s ease-out 1.75s forwards;
+    }
+  }
+
+  @keyframes walk {
+    to {
+      stroke-dashoffset: 0;
+    }
+  }
+
+  @keyframes land {
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+</style>

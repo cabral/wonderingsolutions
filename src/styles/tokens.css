@@ -1,0 +1,80 @@
+/* Wondering Solutions design tokens.
+   Source: the Wondering Solutions design system (tokens.json v1).
+   Day (birch) is the default theme, Night (trail) follows the OS setting. */
+
+:root {
+  color-scheme: light dark;
+
+  /* Color, Day */
+  --page: #F1F2EE;
+  --raised: #E3E6DF;
+  --ink: #1E2A4A;
+  --ink-soft: #3D4C74;
+  --hakama: #1E2A4A;
+  --line: #4A4F55;
+  --lichen: #A9B89A;
+  --mark: #E9A23B;
+  --mark-ink: #9A5B0C;
+  --flag: #B3261E;
+
+  /* Text that sits on a fill, fixed across themes */
+  --on-hakama: #F1F2EE;
+  --on-lichen: #1E2A4A;
+  --on-mark: #1E2A4A;
+
+  /* Type */
+  --font-serif: "Alegreya Variable", "Alegreya", Georgia, serif;
+  --font-sans: "Schibsted Grotesk Variable", "Schibsted Grotesk", system-ui, sans-serif;
+
+  --display: 500 clamp(2.75rem, 7vw, 4rem) / 1 var(--font-serif);
+  --headline: 500 clamp(2rem, 4.5vw, 2.5rem) / 1.15 var(--font-serif);
+  --essay: 400 1.25rem / 2rem var(--font-serif);
+  --title: 600 1.375rem / 1.875rem var(--font-sans);
+  --body: 400 1.0625rem / 1.75rem var(--font-sans);
+  --small: 400 0.875rem / 1.375rem var(--font-sans);
+  --label: 600 0.8125rem / 1.125rem var(--font-sans);
+
+  /* Spacing */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-4: 16px;
+  --space-8: 32px;
+  --space-12: 48px;
+  --space-24: 96px;
+
+  /* Radius */
+  --radius-0: 0px;
+  --radius-2: 2px;
+  --radius-round: 999px;
+
+  /* Stroke */
+  --stroke-hair: 1px;
+  --stroke-trail: 2px;
+
+  /* Layout */
+  --measure: 68ch;
+  --gutter: var(--space-8);
+  --section-gap: var(--space-12);
+}
+
+@media (min-width: 768px) {
+  :root {
+    --gutter: var(--space-12);
+    --section-gap: var(--space-24);
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --page: #141C33;
+    --raised: #1E2A4A;
+    --ink: #F1F2EE;
+    --ink-soft: #C5CDBB;
+    --hakama: #3D4C74;
+    --line: #8C96A8;
+    --lichen: #A9B89A;
+    --mark: #E9A23B;
+    --mark-ink: #E9A23B;
+    --flag: #F2857B;
+  }
+}

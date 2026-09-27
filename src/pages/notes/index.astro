@@ -1,0 +1,62 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+
+const notes = (await getCollection('notes', ({ data }) => !data.draft)).sort(
+  (a, b) => b.data.date.valueOf() - a.data.date.valueOf(),
+);
+const fmt = new Intl.DateTimeFormat('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
+---
+<Base
+  title="Notes"
+  description="Notes on building AI systems, open civic infrastructure and self-directed education."
+>
+  <div class="wrap">
+    <header class="page-head">
+      <h1 class="display">Notes</h1>
+      <p class="lede column intro">
+        Writing about what I'm building, mostly while it's still broken. Serenata progress, work on
+        AI systems that have to survive contact with an actual organisation, and occasional pieces
+        on Estaleiro.
+      </p>
+    </header>
+
+    {notes.length === 0 ? (
+      <p class="empty column">Nothing published yet. The first notes will be about Serenata Europa.</p>
+    ) : (
+      <ol class="list column">
+        {notes.map((n) => (
+          <li>
+            <time class="small" datetime={n.data.date.toISOString()}>{fmt.format(n.data.date)}</time>
+            <h2 class="title"><a href={`/notes/${n.id}/`}>{n.data.title}</a></h2>
+            {n.data.summary && <p>{n.data.summary}</p>}
+          </li>
+        ))}
+      </ol>
+    )}
+  </div>
+</Base>
+
+<style>
+  .intro {
+    margin-top: var(--space-8);
+  }
+
+  .empty {
+    border-top: var(--stroke-hair) solid var(--line);
+    padding-top: var(--space-4);
+    color: var(--ink-soft);
+  }
+
+  .list {
+    list-style: none;
+    padding: 0;
+  }
+
+  .list li {
+    display: grid;
+    gap: var(--space-1);
+    border-top: var(--stroke-hair) solid var(--line);
+    padding-block: var(--space-4) var(--space-8);
+  }
+</style>

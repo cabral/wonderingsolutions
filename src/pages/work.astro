@@ -1,0 +1,264 @@
+---
+import Base from '../layouts/Base.astro';
+import { site } from '../config';
+
+// Order follows the tatami pinwheel: top, right, bottom, left.
+const mat = [
+  { id: 'dairy', name: 'Dairy production data', where: 'Tetra Pak', fill: 'hakama' },
+  { id: 'sustainability', name: 'Sustainability recommendations', where: 'Tetra Pak', fill: 'lichen' },
+  { id: 'talent', name: 'Talent matching', where: 'Accelerated Growth AB', fill: 'hakama' },
+  { id: 'ikea', name: 'Engineering management', where: 'IKEA', fill: 'lichen' },
+];
+---
+<Base
+  title="Work"
+  description="Enterprise AI and data engineering. Dairy production data and sustainability systems at Tetra Pak, engineering management at IKEA."
+>
+  <div class="wrap">
+    <header class="page-head">
+      <h1 class="display">Work</h1>
+      <div class="column prose intro">
+        <p class="lede">
+          I've spent fifteen years between engineering and the people who have to decide things.
+          The technical half is data platforms, pipelines and AI systems. The other half is sitting
+          with the people who own the problem until the requirement is actually a requirement and
+          not a wish.
+        </p>
+        <p>Currently placed at Tetra Pak through Accelerated Growth AB.</p>
+      </div>
+    </header>
+
+    <nav class="mat" aria-label="Engagements on this page">
+      {mat.map((m, i) => (
+        <a class={`mat__block mat__block--${i + 1} fill-${m.fill}`} href={`#${m.id}`}>
+          <span class="mat__name">{m.name}</span>
+          <span class="mat__where">{m.where}</span>
+        </a>
+      ))}
+      <span class="mat__center" aria-hidden="true"></span>
+    </nav>
+
+    <article class="case" id="dairy" aria-labelledby="dairy-h">
+      <p class="label">Tetra Pak</p>
+      <h2 id="dairy-h" class="headline">Dairy production data</h2>
+      <div class="column prose">
+        <p>
+          A dairy operation generates data at every stage: collection, separation, pasteurisation,
+          whey streams, cheese, filling and packing. Each stage has its own systems and its own
+          people. Very few can see across all of them at once.
+        </p>
+        <p>
+          I work across that chain as a data engineer and developer. Pipelines that bring the stages
+          into one place, dashboards that operations teams actually open, and machine learning
+          models and AI reporting built on top of the result.
+        </p>
+      </div>
+      <dl class="field column">
+        <dt>Built with</dt>
+        <dd>Azure Databricks, Unity Catalog, Lakeflow, Databricks SQL, MLflow, Power BI.</dd>
+      </dl>
+    </article>
+
+    <article class="case" id="sustainability" aria-labelledby="sust-h">
+      <p class="label">Tetra Pak</p>
+      <h2 id="sust-h" class="headline">Sustainability recommendations</h2>
+      <div class="column prose">
+        <p>
+          Two problems landing on one department. The sustainability specialists knew there were
+          improvements available across customers' production lines that nobody was finding
+          systematically. They were also answering every specialist question coming from a sales
+          organisation working across more than 160 countries.
+        </p>
+        <p>
+          I built a recommendation engine that identifies sustainability options for a given
+          customer, covering both changes to the production line and broader measures like solar.
+          And a chatbot trained on internal sustainability material, so the global team can get
+          answers on specialist subjects without routing every question through a department that
+          was never going to scale to meet them.
+        </p>
+      </div>
+      <dl class="field column">
+        <dt>Built with</dt>
+        <dd>Azure Databricks, Power BI, Dash, Azure AI Foundry with RAG over internal sustainability material.</dd>
+      </dl>
+    </article>
+
+    <article class="case" id="talent" aria-labelledby="talent-h">
+      <p class="label">Accelerated Growth AB</p>
+      <h2 id="talent-h" class="headline">Talent matching</h2>
+      <div class="column prose">
+        <p>
+          Our commercial inbox was the bottleneck. Every assignment request arriving needed
+          evaluating against what we could actually staff, and once it qualified, someone had to
+          work through the consultant database weighing availability, location, skills and where
+          that person wanted their career to go. It isn't work that gets faster by adding people to
+          it.
+        </p>
+        <p>
+          I built a system that reads the inbox, qualifies incoming requests and ranks consultants
+          against them on those criteria. It cut a process measured in hours down to minutes.
+        </p>
+        <p>This is the one I can show in detail, because it's ours rather than a client's.</p>
+      </div>
+      <dl class="field column">
+        <dt>Built with</dt>
+        <dd>Azure Logic Apps, deployed models.</dd>
+      </dl>
+    </article>
+
+    <article class="case" id="ikea" aria-labelledby="ikea-h">
+      <p class="label">IKEA</p>
+      <h2 id="ikea-h" class="headline">Engineering management</h2>
+      <div class="column prose">
+        <p>
+          Engineering management and vendor strategy for the platforms behind IKEA's
+          organisation-wide surveys. Line management of a software engineering team, four suppliers
+          across different products and services, budget ownership, and the integration work to
+          make several separately-bought solutions behave like one thing.
+        </p>
+        <p>
+          Less AI than the rest of this page, and more of what makes AI projects actually land:
+          getting engineers, suppliers and product management pointed at the same outcome before
+          anyone writes code.
+        </p>
+      </div>
+    </article>
+
+    <section class="case together" aria-labelledby="together-h">
+      <h2 id="together-h" class="headline">Working together</h2>
+      <div class="column prose">
+        <p>
+          I take on data platform work, AI system design and the discovery that has to happen
+          before either. Available through Accelerated Growth AB or directly, depending on the
+          shape of the engagement.
+        </p>
+        <p class="together__mail"><a href={`mailto:${site.email}`}>{site.email}</a></p>
+      </div>
+    </section>
+  </div>
+</Base>
+
+<style>
+  .intro {
+    margin-top: var(--space-8);
+  }
+
+  /* The mat: four 2:1 blocks in a pinwheel around a square centre,
+     so no four corners meet. Stacks on narrow screens. */
+  .mat {
+    display: grid;
+    gap: var(--space-1);
+    margin-block: var(--space-8) var(--space-12);
+  }
+
+  .mat__block {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    gap: var(--space-1);
+    min-height: 7rem;
+    padding: var(--space-4);
+    text-decoration: none;
+  }
+
+  .mat__name {
+    font: var(--title);
+    font-family: var(--font-serif);
+    font-weight: 500;
+    text-wrap: balance;
+  }
+
+  .mat__where {
+    font: var(--small);
+  }
+
+  .fill-hakama {
+    background: var(--hakama);
+    color: var(--on-hakama);
+  }
+
+  .fill-lichen {
+    background: var(--lichen);
+    color: var(--on-lichen);
+  }
+
+  .mat__block:hover {
+    color: inherit;
+  }
+
+  .mat__block:hover .mat__name {
+    text-decoration: underline;
+    text-decoration-thickness: var(--stroke-hair);
+    text-underline-offset: 0.2em;
+  }
+
+  .fill-hakama:hover {
+    color: var(--on-hakama);
+  }
+
+  .fill-lichen:hover {
+    color: var(--on-lichen);
+  }
+
+  .mat__center {
+    display: none;
+  }
+
+  @media (min-width: 720px) {
+    .mat {
+      max-width: 36rem;
+      grid-template-columns: repeat(3, 1fr);
+      grid-template-rows: repeat(3, minmax(0, 1fr));
+      aspect-ratio: 1;
+    }
+
+    .mat__block {
+      min-height: 0;
+    }
+
+    .mat__block--1 {
+      grid-column: 1 / 3;
+      grid-row: 1;
+    }
+
+    .mat__block--2 {
+      grid-column: 3;
+      grid-row: 1 / 3;
+    }
+
+    .mat__block--3 {
+      grid-column: 2 / 4;
+      grid-row: 3;
+    }
+
+    .mat__block--4 {
+      grid-column: 1;
+      grid-row: 2 / 4;
+    }
+
+    .mat__center {
+      display: block;
+      grid-column: 2;
+      grid-row: 2;
+      background: var(--mark);
+    }
+  }
+
+  .case {
+    border-top: var(--stroke-hair) solid var(--line);
+    padding-block: var(--space-8) var(--space-12);
+    scroll-margin-top: var(--space-4);
+  }
+
+  .case h2 {
+    margin: var(--space-1) 0 var(--space-8);
+  }
+
+  .case .field {
+    margin-top: var(--space-8);
+  }
+
+  .together__mail {
+    font: var(--title);
+  }
+</style>

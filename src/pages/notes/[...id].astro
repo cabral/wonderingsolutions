@@ -1,0 +1,35 @@
+---
+import { getCollection, render } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+
+export async function getStaticPaths() {
+  const notes = await getCollection('notes', ({ data }) => !data.draft);
+  return notes.map((note) => ({ params: { id: note.id }, props: { note } }));
+}
+
+const { note } = Astro.props;
+const { Content } = await render(note);
+const fmt = new Intl.DateTimeFormat('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
+---
+<Base title={note.data.title} description={note.data.summary ?? note.data.title}>
+  <article class="wrap">
+    <header class="page-head">
+      <p class="small"><a href="/notes/">Notes</a>, <time datetime={note.data.date.toISOString()}>{fmt.format(note.data.date)}</time></p>
+      <h1 class="headline note-title">{note.data.title}</h1>
+    </header>
+    <div class="column prose essay">
+      <Content />
+    </div>
+  </article>
+</Base>
+
+<style>
+  .note-title {
+    margin-top: var(--space-4);
+    max-width: 24ch;
+  }
+
+  .essay {
+    font: var(--essay);
+  }
+</style>

@@ -1,0 +1,104 @@
+---
+import Base from '../layouts/Base.astro';
+import Mark from '../components/Mark.astro';
+
+const entries = [
+  {
+    name: 'Consulting',
+    text: 'Enterprise AI and data engineering. Currently building dairy production data systems and sustainability tooling at Tetra Pak. Before that, engineering management at IKEA.',
+    href: '/work/',
+    link: 'See the work',
+  },
+  {
+    name: 'Serenata Europa',
+    text: "An open pipeline that reads the EU's public procurement notices and flags statistical anomalies anyone can verify against the source. Successor to a Brazilian project that led to 629 formal complaints against sitting congresspeople. In development.",
+    href: '/serenata/',
+    link: 'Read more about Serenata Europa',
+  },
+  {
+    name: 'Estaleiro',
+    text: "A Brazilian programme in self-directed entrepreneurship. I co-founded it in Porto Alegre in 2012. It's being rebuilt in Stockholm with Klustret Ekskäret.",
+    href: '/estaleiro/',
+    link: 'Read more about Estaleiro',
+  },
+];
+---
+<Base description="Felipe Cabral, AI and data consultant in Stockholm. Enterprise data engineering, and open-source tools for public procurement transparency.">
+  <div class="wrap">
+    <section class="hero" aria-labelledby="hero-title">
+      <Mark size={112} draw class="hero__mark" />
+      <h1 id="hero-title" class="display">I build systems that make things visible.</h1>
+      <div class="column prose hero__text">
+        <p class="lede">
+          Most of my work starts the same way. An organisation is producing data it can't act on.
+          Sometimes that's a dairy plant running twenty stages with no view across them. Sometimes
+          it's a parliament publishing three million expense claims that nobody reads.
+        </p>
+        <p>
+          I'm Felipe Cabral. I work as an AI and data consultant in Stockholm, and I build open
+          civic infrastructure alongside it. This is where both live.
+        </p>
+      </div>
+    </section>
+
+    <section class="entries" aria-label="What I work on">
+      {entries.map((e) => (
+        <article class="entry">
+          <h2 class="title entry__name">{e.name}</h2>
+          <div class="entry__body">
+            <p>{e.text}</p>
+            <p class="entry__link"><a href={e.href}>{e.link}</a></p>
+          </div>
+        </article>
+      ))}
+    </section>
+  </div>
+</Base>
+
+<style>
+  .hero {
+    padding-block: var(--space-12) var(--space-12);
+  }
+
+  @media (min-width: 768px) {
+    .hero {
+      padding-block: var(--space-24) var(--space-24);
+    }
+  }
+
+  .hero :global(.hero__mark) {
+    color: var(--ink);
+    margin-bottom: var(--space-8);
+    margin-left: -6px;
+  }
+
+  .hero h1 {
+    max-width: 14ch;
+  }
+
+  .hero__text {
+    margin-top: var(--space-8);
+  }
+
+  .entries {
+    border-bottom: var(--stroke-hair) solid var(--line);
+  }
+
+  .entry {
+    display: grid;
+    gap: var(--space-2) var(--space-8);
+    border-top: var(--stroke-hair) solid var(--line);
+    padding-block: var(--space-8);
+  }
+
+  @media (min-width: 768px) {
+    .entry {
+      grid-template-columns: 14rem minmax(0, var(--measure));
+    }
+  }
+
+  .entry__link {
+    margin-top: var(--space-2);
+    font-weight: 600;
+  }
+</style>

@@ -1,0 +1,229 @@
+---
+import Base from '../layouts/Base.astro';
+import SampleRecord from '../components/SampleRecord.astro';
+import Notify from '../components/Notify.astro';
+import { site } from '../config';
+
+// Keep in step with the status block in the Serenata README.
+const milestones = [
+  { n: 1, name: 'Ingestion and normalisation', detail: 'TED and eForms XML into a documented open dataset', status: 'In progress' },
+  { n: 2, name: 'Classifiers', detail: 'One written, falsifiable hypothesis per classifier, with measured error rates', status: 'Planned' },
+  { n: 3, name: 'Entity resolution', detail: 'Buyers and suppliers matched against national company registers', status: 'Planned' },
+  { n: 4, name: 'Public API', detail: 'Versioned bulk data', status: 'Planned' },
+  { n: 5, name: 'Verification interface', detail: 'Every flag next to its hypothesis and its source notice', status: 'Planned' },
+];
+const repoLabel = site.serenataRepo.replace(/^https:\/\//, '');
+---
+<Base
+  title="Serenata Europa"
+  description="An open-source pipeline reading EU public procurement notices and flagging anomalies anyone can verify. Successor to Brazil's Serenata de Amor."
+>
+  <div class="wrap">
+    <header class="page-head">
+      <p class="label eyebrow">Serenata Europa</p>
+      <h1 class="display serenata-title">700,000 procurement notices a year. Nobody is reading them.</h1>
+      <div class="column prose intro">
+        <p class="lede">
+          The EU publishes around 700,000 public procurement notices annually through TED, and
+          since late 2024 they arrive in a machine-readable standard called eForms. Dashboards exist
+          for analysts. A continuously running, open pipeline that turns those notices into flags an
+          ordinary person can verify does not.
+        </p>
+        <p>I'm building one.</p>
+      </div>
+    </header>
+
+    <section class="block">
+      <SampleRecord />
+    </section>
+
+    <section class="section" aria-labelledby="brazil">
+      <h2 id="brazil">What happened in Brazil</h2>
+      <div class="column prose">
+        <p>
+          In 2016, three of us built Operação Serenata de Amor. It was open source, crowdfunded by
+          1,296 people, and it read three million parliamentary expense claims looking for the ones
+          that didn't add up. Volunteers checked what it found. That verification work led to 629
+          formal complaints against sitting congresspeople.
+        </p>
+        <p>The project is now stewarded by Open Knowledge Brasil.</p>
+        <p>
+          Serenata Europa is the same method pointed at new territory: a written, falsifiable
+          hypothesis behind every classifier, human verification before anything is published, and
+          every claim traceable back to the source record.
+        </p>
+      </div>
+      <dl class="facts">
+        <div class="field"><dt>Claims read</dt><dd>3 million</dd></div>
+        <div class="field"><dt>Backers</dt><dd>1,296</dd></div>
+        <div class="field"><dt>Formal complaints</dt><dd>629</dd></div>
+      </dl>
+    </section>
+
+    <section class="section" aria-labelledby="flag">
+      <h2 id="flag">What a flag means</h2>
+      <div class="column prose">
+        <p>
+          A flag is a statistical anomaly matched against a documented risk indicator. Nothing more
+          than that. Most flags have innocent explanations.
+        </p>
+        <p>
+          Every flag links to the source notice so you can check it yourself. Every classifier's
+          hypothesis and its measured error rates are published. Flags concern institutions and
+          companies, never private individuals.
+        </p>
+        <p>
+          The code is AGPL-3.0. The original used MIT; this one uses AGPL so that hosted forks stay
+          open, which matters for a project whose entire value is that you can check its work.
+        </p>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="now">
+      <h2 id="now">Where it is now</h2>
+      <div class="table-scroll">
+        <table class="milestones">
+          <caption class="visually-hidden">Serenata Europa milestones</caption>
+          <thead>
+            <tr>
+              <th scope="col">Step</th>
+              <th scope="col">Milestone</th>
+              <th scope="col">Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            {milestones.map((m) => (
+              <tr class:list={{ 'is-current': m.status === 'In progress' }}>
+                <td class="milestones__n">{m.n}</td>
+                <td>
+                  <span class="milestones__name">{m.name}</span>
+                  <span class="milestones__detail">{m.detail}</span>
+                </td>
+                <td class="milestones__status">
+                  {m.status === 'In progress' && <span class="blaze" aria-hidden="true"></span>}
+                  {m.status}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <div class="column prose after-table">
+        <p>There's nothing to look at yet. The code is public while it's being written.</p>
+        <p class="repo"><a href={site.serenataRepo}>{repoLabel}</a></p>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="follow">
+      <h2 id="follow">Follow it</h2>
+      <Notify
+        list="serenata"
+        lead="I'll write here as it gets built, including the parts that don't work. Leave your email and you'll hear when there's something running."
+      />
+    </section>
+  </div>
+</Base>
+
+<style>
+  .eyebrow {
+    margin-bottom: var(--space-4);
+  }
+
+  .serenata-title {
+    max-width: 18ch;
+  }
+
+  .intro {
+    margin-top: var(--space-8);
+  }
+
+  .block {
+    padding-block: var(--space-4) 0;
+  }
+
+  .facts {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));
+    gap: var(--space-4) var(--space-8);
+    max-width: var(--measure);
+    margin-top: var(--space-8);
+  }
+
+  .facts dd {
+    font: var(--headline);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .table-scroll {
+    overflow-x: auto;
+    max-width: 48rem;
+  }
+
+  .milestones {
+    width: 100%;
+    border-collapse: collapse;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .milestones th {
+    font: var(--label);
+    color: var(--ink-soft);
+    text-align: left;
+    padding: 0 var(--space-4) var(--space-2) 0;
+  }
+
+  .milestones td {
+    vertical-align: top;
+    padding: var(--space-4) var(--space-4) var(--space-4) 0;
+    border-top: var(--stroke-hair) solid var(--line);
+  }
+
+  .milestones tbody tr:last-child td {
+    border-bottom: var(--stroke-hair) solid var(--line);
+  }
+
+  .milestones__n {
+    width: 3rem;
+    font: var(--title);
+  }
+
+  .milestones__name {
+    display: block;
+    font-weight: 600;
+  }
+
+  .milestones__detail {
+    display: block;
+    font: var(--small);
+    color: var(--ink-soft);
+  }
+
+  .milestones__status {
+    white-space: nowrap;
+    font: var(--small);
+    color: var(--ink-soft);
+  }
+
+  .is-current .milestones__status {
+    color: var(--ink);
+    font-weight: 600;
+  }
+
+  /* A trail blaze marks where the project is */
+  .blaze {
+    display: inline-block;
+    width: 6px;
+    height: 12px;
+    margin-right: var(--space-2);
+    background: var(--ink);
+    vertical-align: -1px;
+  }
+
+  .after-table {
+    margin-top: var(--space-8);
+  }
+
+  .repo {
+    font-weight: 600;
+  }
+</style>

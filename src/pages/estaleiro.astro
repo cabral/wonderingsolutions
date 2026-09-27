@@ -1,0 +1,137 @@
+---
+import Base from '../layouts/Base.astro';
+import CirclePlan from '../components/CirclePlan.astro';
+import Notify from '../components/Notify.astro';
+---
+<Base
+  title="Estaleiro"
+  description="Estaleiro Liberdade, a Brazilian self-directed entrepreneurship programme from 2012, now being rebuilt in Stockholm with Klustret Ekskäret."
+>
+  <div class="wrap">
+    <header class="page-head">
+      <p class="label eyebrow">Estaleiro Liberdade, Porto Alegre 2012</p>
+      <h1 class="display estaleiro-title">A school of entrepreneurship through <span class="nowrap">self-knowledge.</span> But pirate.</h1>
+      <div class="column prose intro">
+        <p class="lede">
+          That was the tagline, and it was accurate. Estaleiro Liberdade ran in Porto Alegre from
+          2012, in a shared house on Rua Liberdade that several social-impact organisations were
+          using at the same time. We started by opening the doors every Friday for free teaching and
+          learning sessions. The first cohort of five began in August 2012. By 2014 it had reached
+          São Paulo with groups of up to 24.
+        </p>
+        <p>
+          I co-founded it and served as president of the formal organisation. My part ran through
+          2015.
+        </p>
+      </div>
+    </header>
+
+    <section class="section first" aria-labelledby="how">
+      <h2 id="how">How it worked</h2>
+      <div class="column prose">
+        <p>
+          Journeys ran three to four months. Participants were called sailors, facilitators were
+          pirates, and nobody had a curriculum. No grades, no reading lists, no attendance
+          requirement. Everything was proposed and nothing was mandatory.
+        </p>
+        <p>
+          Four kinds of gathering: conversation circles, workshops on methods, hands-on sessions on
+          your own project, and individual mentoring. The toolkit came from wherever it worked,
+          including Nonviolent Communication, design thinking, Dragon Dreaming and agile.
+        </p>
+        <p>Three principles held it together.</p>
+      </div>
+
+      <div class="plan-wrap">
+        <CirclePlan />
+      </div>
+
+      <div class="column prose">
+        <p>
+          Before we started, Felipe Amaral and I travelled through Europe visiting Schumacher
+          College in England, Kaos Pilot in Denmark and Knowmads in the Netherlands. In 2013 a
+          second expedition visited nine more schools, crowdfunded on Catarse. What we found there
+          shaped the model.
+        </p>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="out">
+      <h2 id="out">What came out of it</h2>
+      <div class="column prose">
+        <p>
+          Small things, mostly, which is what happens when cohorts are a dozen people. Herói Postal
+          turned emails into handwritten physical letters, with the income shared with hospitalised
+          people who wrote them. One participant left with a writing project he'd been avoiding for
+          years and started it. A facilitator built a career transition programme of her own out of
+          the experience.
+        </p>
+        <p>The programme carried on without me for a while and wound down around 2016.</p>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="sthlm">
+      <h2 id="sthlm">Stockholm</h2>
+      <div class="column prose">
+        <p>
+          Klustret Ekskäret is a community and coworking space on Odengatan, started in 2016 by
+          Stiftelsen Ekskäret, a foundation Tomas Björkman set up in 2008. The foundation runs two
+          places: Klustret in the city, and an island in a nature reserve out in the Stockholm
+          archipelago. Weekdays Klustret is somewhere to work. Evenings and weekends it turns into
+          whatever the members decide to run there.
+        </p>
+        <p>
+          Klustret calls itself a lab and an experiment in self-organisation. Members sit in
+          circles, each one responsible for an area, and the whole thing runs on six principles
+          about taking responsibility for your own contribution, showing up as you are, sharing what
+          you have, acting before you're certain, and everyone being a host rather than a guest.
+        </p>
+        <p>
+          I recognised all of that. Estaleiro ran on rotating leadership, shared responsibility, and
+          circle agreements about listening without judgement and treating silence as part of the
+          conversation. Different country, different decade, the same bet: people work out what to
+          build by working on themselves, in a group that holds them to it.
+        </p>
+        <p>
+          Klustret is also an Inner Development Goals hub. IDG is the vocabulary that didn't exist
+          in 2012, when we called it <span lang="pt">autoconhecimento</span> and had to explain it
+          every single time.
+        </p>
+        <p>We're building a version of Estaleiro there. Details when there are details.</p>
+      </div>
+      <div class="notify-wrap">
+        <Notify list="estaleiro" lead="More soon. Leave your email if you want to know when." />
+      </div>
+    </section>
+  </div>
+</Base>
+
+<style>
+  .eyebrow {
+    margin-bottom: var(--space-4);
+  }
+
+  .estaleiro-title {
+    max-width: 20ch;
+  }
+
+  .nowrap {
+    white-space: nowrap;
+  }
+
+  .intro {
+    margin-top: var(--space-8);
+  }
+
+  .first {
+    padding-top: var(--space-8);
+  }
+
+  .plan-wrap {
+    margin-block: var(--space-12);
+  }
+
+  .notify-wrap {
+    margin-top: var(--space-8);
+  }
+</style>

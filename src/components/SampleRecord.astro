@@ -1,0 +1,149 @@
+---
+// One procurement record as it arrives, with a single flagged field.
+// PLACEHOLDER: field IDs follow eForms business terms but the values are
+// invented. Replace with a real TED notice before launch.
+const fields = [
+  { id: 'BT-701', term: 'Notice identifier', value: '4f1c9a2e-0000-4b7d-9e11-illustrative' },
+  { id: 'BT-05', term: 'Notice dispatch date', value: '2025-03-14' },
+  { id: 'BT-500', term: 'Buyer', value: 'Regional health authority (example)' },
+  { id: 'BT-262', term: 'Main classification (CPV)', value: '33600000 Pharmaceutical products' },
+  { id: 'BT-105', term: 'Procedure type', value: 'Open' },
+  { id: 'BT-759', term: 'Received submissions', value: '1', flagged: true },
+  { id: 'BT-720', term: 'Tender value', value: 'EUR 2 480 000' },
+  { id: 'BT-500', term: 'Winner', value: 'Supplier AB (example)' },
+];
+---
+<figure class="record">
+  <figcaption class="record__head">
+    <span class="label">Sample record</span>
+    <span class="small">Illustrative. Not a real notice.</span>
+  </figcaption>
+  <dl class="record__fields">
+    {fields.map((f) => (
+      <div class:list={['record__row', { 'is-flagged': f.flagged }]}>
+        <dt>
+          <span class="record__id">{f.id}</span>
+          <span class="record__term">{f.term}</span>
+        </dt>
+        <dd>
+          {f.value}
+          {f.flagged && <span class="record__flag"><span class="visually-hidden">Flagged</span></span>}
+        </dd>
+      </div>
+    ))}
+  </dl>
+  <div class="record__why">
+    <p class="label record__why-label">Why this is flagged</p>
+    <p>
+      Hypothesis: an open procedure that receives a single tender matches a documented
+      single-bidding risk indicator. That is all a flag says. There may be an innocent
+      explanation, such as a product only one company makes.
+    </p>
+    <p class="small">Check it yourself against the source notice on TED.</p>
+  </div>
+</figure>
+
+<style>
+  .record {
+    background: var(--raised);
+    max-width: 48rem;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .record__head {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: var(--space-2) var(--space-4);
+    padding: var(--space-4) var(--space-4) var(--space-2);
+  }
+
+  .record__fields {
+    padding-inline: var(--space-4);
+  }
+
+  .record__row {
+    display: grid;
+    gap: 0 var(--space-4);
+    padding-block: var(--space-2);
+    border-top: var(--stroke-hair) solid var(--line);
+  }
+
+  @media (min-width: 560px) {
+    .record__row {
+      grid-template-columns: 17rem 1fr;
+    }
+  }
+
+  .record__row dt {
+    display: flex;
+    gap: var(--space-2);
+    font: var(--small);
+    color: var(--ink-soft);
+  }
+
+  .record__id {
+    flex: none;
+    width: 3.5rem;
+  }
+
+  .record__row dd {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    overflow-wrap: anywhere;
+  }
+
+  .record__row.is-flagged dd {
+    font-weight: 600;
+  }
+
+  /* The flag: a small 1:2 pennant in --flag, landing a beat after the record */
+  .record__flag {
+    display: inline-block;
+    width: 8px;
+    height: 16px;
+    background: var(--flag);
+  }
+
+  .record__row.is-flagged {
+    box-shadow: inset var(--stroke-trail) 0 0 var(--flag);
+    margin-inline: calc(var(--space-4) * -1);
+    padding-inline: var(--space-4);
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .record__flag {
+      animation: flag-in 0.3s ease-out 0.9s both;
+    }
+
+    .record__row.is-flagged {
+      animation: rule-in 0.3s ease-out 0.9s both;
+    }
+  }
+
+  @keyframes flag-in {
+    from {
+      opacity: 0;
+      transform: translateY(-4px);
+    }
+  }
+
+  @keyframes rule-in {
+    from {
+      box-shadow: inset 0 0 0 var(--flag);
+    }
+  }
+
+  .record__why {
+    border-top: var(--stroke-trail) solid var(--line);
+    padding: var(--space-4);
+    display: grid;
+    gap: var(--space-2);
+  }
+
+  .record__why p {
+    max-width: var(--measure);
+  }
+
+</style>

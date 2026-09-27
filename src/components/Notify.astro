@@ -1,0 +1,75 @@
+---
+import { site } from '../config';
+
+interface Props {
+  list: 'serenata' | 'estaleiro';
+  lead?: string;
+}
+const { list, lead } = Astro.props;
+const id = `notify-${list}`;
+const subject = list === 'serenata' ? 'Serenata Europa updates' : 'Estaleiro Stockholm updates';
+const mailto = `mailto:${site.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent('Please let me know when there is news.')}`;
+---
+<div class="notify">
+  {lead && <p class="notify__lead">{lead}</p>}
+  {site.notifyAction ? (
+    <form class="notify__form" action={site.notifyAction} method="post">
+      <input type="hidden" name="tag" value={list} />
+      <label class="label" for={id}>Email address</label>
+      <div class="notify__row">
+        <input id={id} name="email" type="email" autocomplete="email" required placeholder="you@example.com" />
+        <button class="button" type="submit">Notify me</button>
+      </div>
+      <p class="small">One email when there is something to see. Nothing else.</p>
+    </form>
+  ) : (
+    <p>
+      <a class="button" href={mailto}>Notify me</a>
+      <span class="small notify__fallback">Opens an email to {site.email}.</span>
+    </p>
+  )}
+</div>
+
+<style>
+  .notify {
+    background: var(--raised);
+    padding: var(--space-8);
+    max-width: 40rem;
+  }
+
+  .notify__lead {
+    margin-bottom: var(--space-4);
+  }
+
+  .notify__form {
+    display: grid;
+    gap: var(--space-2);
+  }
+
+  .notify__row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+  }
+
+  input[type='email'] {
+    flex: 1 1 14rem;
+    min-height: 44px;
+    padding: 0 var(--space-4);
+    border: var(--stroke-hair) solid var(--line);
+    border-radius: var(--radius-2);
+    background: var(--page);
+    color: var(--ink);
+    font: var(--body);
+  }
+
+  input::placeholder {
+    color: var(--ink-soft);
+    opacity: 0.8;
+  }
+
+  .notify__fallback {
+    display: block;
+    margin-top: var(--space-2);
+  }
+</style>

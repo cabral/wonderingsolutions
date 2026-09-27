@@ -1,0 +1,64 @@
+---
+import Base from '../layouts/Base.astro';
+import { site } from '../config';
+---
+<Base
+  title="About"
+  description="Felipe Cabral. Fifteen years across startups, engineering leadership and civic tech, from Porto Alegre to Stockholm."
+>
+  <div class="wrap">
+    <header class="page-head">
+      <h1 class="display">About</h1>
+    </header>
+
+    <div class="column prose about">
+      <p class="lede">I'm Felipe Cabral. I live in Stockholm and I work on data and AI systems.</p>
+      <p>
+        I started in Porto Alegre in 2011, co-founding Engage, a studio that built early-stage
+        products and helped ignite a lot of what became the Brazilian startup scene. That work
+        turned into data science consulting, and then into Serenata de Amor and a run of civic tech
+        projects across Brazil, Italy and Canada: turning unreadable government datasets into files
+        a journalist could open, and rebuilding Montreal's open data portal with Datopian.
+      </p>
+      <p>
+        I moved to Sweden and moved through engineering leadership. Technical director at Essen,
+        CTO at Ares Habitats, then consulting through Accelerated Growth AB at IKEA and now Tetra
+        Pak.
+      </p>
+      <p>
+        The through-line is that I keep ending up in the same place: somewhere there's data nobody
+        can act on, and someone has to build the thing that makes it usable.
+      </p>
+      <p>
+        I studied business administration at PUCRS, not engineering, which meant learning to build
+        by building. I've practised Aikido for over twenty years. That's had more influence on how I
+        work than any methodology I've read, mostly around not forcing things that aren't ready to
+        move.
+      </p>
+    </div>
+
+    <dl class="contact column">
+      <div class="field"><dt>Email</dt><dd><a href={`mailto:${site.email}`}>{site.email}</a></dd></div>
+      <div class="field"><dt>Elsewhere</dt><dd><a href={site.linkedin} rel="me">LinkedIn</a></dd></div>
+    </dl>
+  </div>
+</Base>
+
+<style>
+  .contact {
+    display: grid;
+    gap: var(--space-4);
+    margin-top: var(--space-12);
+  }
+
+  @media (min-width: 560px) {
+    .contact {
+      grid-template-columns: 2fr 1fr;
+    }
+  }
+
+  .contact dd {
+    font: var(--title);
+    overflow-wrap: anywhere;
+  }
+</style>
