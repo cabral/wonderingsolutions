@@ -2,6 +2,7 @@
 import Base from '../layouts/Base.astro';
 import SampleRecord from '../components/SampleRecord.astro';
 import Notify from '../components/Notify.astro';
+import VideoEmbed from '../components/VideoEmbed.astro';
 import { site } from '../config';
 
 // Keep in step with the status block in the Serenata README.
@@ -56,6 +57,13 @@ const repoLabel = site.serenataRepo.replace(/^https:\/\//, '');
           published here.
         </p>
       </div>
+      <VideoEmbed
+        id="751187741"
+        hash="dcdf015080"
+        title="Estaleiro Liberdade"
+        caption="Estaleiro Liberdade"
+        duration="2 min 45 s"
+      />
       <dl class="facts">
         <div class="field"><dt>Claims read</dt><dd>3 million</dd></div>
         <div class="field"><dt>Backers</dt><dd>1,296</dd></div>
