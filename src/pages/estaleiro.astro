@@ -2,6 +2,7 @@
 import Base from '../layouts/Base.astro';
 import CirclePlan from '../components/CirclePlan.astro';
 import Notify from '../components/Notify.astro';
+import VideoEmbed from '../components/VideoEmbed.astro';
 ---
 <Base
   title="Estaleiro"
@@ -25,6 +26,17 @@ import Notify from '../components/Notify.astro';
         </p>
       </div>
     </header>
+
+    <div class="videos">
+      <VideoEmbed
+        id="751187741"
+        hash="dcdf015080"
+        title="Estaleiro Liberdade"
+        caption="Estaleiro Liberdade"
+        duration="2 min 45 s"
+      />
+      <VideoEmbed id="75667105" hash="e07edc13d8" title="Video" />
+    </div>
 
     <section class="section first" aria-labelledby="how">
       <h2 id="how">How it worked</h2>
@@ -121,6 +133,19 @@ import Notify from '../components/Notify.astro';
 
   .intro {
     margin-top: var(--space-8);
+  }
+
+  .videos {
+    display: grid;
+    gap: var(--space-8);
+    margin-top: var(--space-4);
+  }
+
+  @media (min-width: 900px) {
+    .videos {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      align-items: start;
+    }
   }
 
   .first {
