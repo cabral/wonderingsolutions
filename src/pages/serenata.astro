@@ -57,13 +57,16 @@ const repoLabel = site.serenataRepo.replace(/^https:\/\//, '');
           published here.
         </p>
       </div>
-      <VideoEmbed
-        id="751187741"
-        hash="dcdf015080"
-        title="Estaleiro Liberdade"
-        caption="Estaleiro Liberdade"
-        duration="2 min 45 s"
-      />
+      <div class="videos">
+        <VideoEmbed
+          id="751187741"
+          hash="dcdf015080"
+          title="Estaleiro Liberdade"
+          caption="Estaleiro Liberdade"
+          duration="2 min 45 s"
+        />
+        <VideoEmbed id="75667105" hash="e07edc13d8" title="Video" />
+      </div>
       <dl class="facts">
         <div class="field"><dt>Claims read</dt><dd>3 million</dd></div>
         <div class="field"><dt>Backers</dt><dd>1,296</dd></div>
@@ -155,6 +158,19 @@ const repoLabel = site.serenataRepo.replace(/^https:\/\//, '');
 
   .block {
     padding-block: var(--space-4) 0;
+  }
+
+  .videos {
+    display: grid;
+    gap: var(--space-8);
+    margin-top: var(--space-8);
+  }
+
+  @media (min-width: 900px) {
+    .videos {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      align-items: start;
+    }
   }
 
   .facts {
