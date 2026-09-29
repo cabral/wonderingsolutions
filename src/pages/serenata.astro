@@ -2,7 +2,6 @@
 import Base from '../layouts/Base.astro';
 import SampleRecord from '../components/SampleRecord.astro';
 import Notify from '../components/Notify.astro';
-import VideoEmbed from '../components/VideoEmbed.astro';
 import { site } from '../config';
 
 // Keep in step with the status block in the Serenata README.
@@ -56,16 +55,6 @@ const repoLabel = site.serenataRepo.replace(/^https:\/\//, '');
           not run or endorsed by Open Knowledge Brasil, which carries no responsibility for anything
           published here.
         </p>
-      </div>
-      <div class="videos">
-        <VideoEmbed
-          id="751187741"
-          hash="dcdf015080"
-          title="Estaleiro Liberdade"
-          caption="Estaleiro Liberdade"
-          duration="2 min 45 s"
-        />
-        <VideoEmbed id="75667105" hash="e07edc13d8" title="Video" />
       </div>
       <dl class="facts">
         <div class="field"><dt>Claims read</dt><dd>3 million</dd></div>
@@ -158,19 +147,6 @@ const repoLabel = site.serenataRepo.replace(/^https:\/\//, '');
 
   .block {
     padding-block: var(--space-4) 0;
-  }
-
-  .videos {
-    display: grid;
-    gap: var(--space-8);
-    margin-top: var(--space-8);
-  }
-
-  @media (min-width: 900px) {
-    .videos {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      align-items: start;
-    }
   }
 
   .facts {
