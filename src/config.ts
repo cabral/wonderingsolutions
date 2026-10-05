@@ -2,6 +2,8 @@
 export const site = {
   name: 'Wondering Solutions',
   person: 'Felipe Cabral',
+  // Used in the home page title and the share card alt text.
+  role: 'AI and Data Consultant',
   city: 'Stockholm',
   email: 'captain@wonderingsolutions.com',
   // TODO: confirm the LinkedIn profile URL before launch.
