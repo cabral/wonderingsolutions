@@ -9,6 +9,8 @@ const notes = defineCollection({
     date: z.coerce.date(),
     summary: z.string().optional(),
     draft: z.boolean().default(false),
+    // Long notes: show a contents list of the note's sections.
+    toc: z.boolean().default(false),
   }),
 });
 

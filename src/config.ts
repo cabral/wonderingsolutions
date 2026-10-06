@@ -22,6 +22,6 @@ export const nav = [
   { href: '/work/', label: 'Work' },
   { href: '/serenata/', label: 'Serenata' },
   { href: '/estaleiro/', label: 'Estaleiro' },
-  // { href: '/notes/', label: 'Notes' },
+  { href: '/notes/', label: 'Notes' },
   { href: '/about/', label: 'About' },
 ];

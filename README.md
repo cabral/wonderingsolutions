@@ -28,6 +28,8 @@ Node 22 or newer.
 | `src/components/Clock.astro` | The segmented incident clock on /agent-day |
 | `src/pages/agent-day.astro` | Agent Day offer page. Unlisted: linked from nowhere, not in the nav |
 | `src/content/notes/` | Notes as Markdown files |
+| `src/pages/notes/[...id].astro` | The note page: contents list, and the styles for tables, code, checklists and sequence figures |
+| `astro.config.mjs` | Site URL, and the Markdown settings for notes |
 
 ## Writing a note
 
@@ -37,14 +39,17 @@ Add `src/content/notes/some-slug.md`:
 ---
 title: First week of ingestion
 date: 2026-10-01
-summary: One sentence for the list page.
+summary: One sentence for the list page and under the title.
 draft: false
+toc: false
 ---
 
 Text here.
 ```
 
-It shows up at `/notes/some-slug/` and on the Notes index.
+It shows up at `/notes/some-slug/` and on the Notes index. Set `toc: true` on long notes to list their sections under the summary.
+
+Tables can be as wide as the content needs. On phones each row becomes a record with the column names as labels; a small plugin in `astro.config.mjs` copies the headers onto the cells. Code blocks render plain in the site's colours, and quotes stay straight, as on the other pages. For a timed sequence of steps, use a `<figure class="sequence">` the way the dojo note does.
 
 ## Before launch
 

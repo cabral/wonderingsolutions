@@ -8,16 +8,31 @@ export async function getStaticPaths() {
 }
 
 const { note } = Astro.props;
-const { Content } = await render(note);
+const { Content, headings } = await render(note);
 const fmt = new Intl.DateTimeFormat('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
+// Long notes set `toc: true` and get a list of their sections.
+const contents = note.data.toc ? headings.filter((h) => h.depth === 2) : [];
 ---
 <Base title={note.data.title} description={note.data.summary ?? note.data.title}>
   <article class="wrap">
     <header class="page-head">
       <p class="small"><a href="/notes/">Notes</a>, <time datetime={note.data.date.toISOString()}>{fmt.format(note.data.date)}</time></p>
       <h1 class="headline note-title">{note.data.title}</h1>
+      {note.data.summary && <p class="lede column note-lede">{note.data.summary}</p>}
     </header>
-    <div class="column prose essay">
+
+    {contents.length > 0 && (
+      <nav class="contents" aria-labelledby="contents-title">
+        <h2 id="contents-title" class="label">Contents</h2>
+        <ol>
+          {contents.map((h) => (
+            <li><a href={`#${h.slug}`}>{h.text}</a></li>
+          ))}
+        </ol>
+      </nav>
+    )}
+
+    <div class="prose essay">
       <Content />
     </div>
   </article>
@@ -29,7 +44,290 @@ const fmt = new Intl.DateTimeFormat('en-GB', { day: 'numeric', month: 'long', ye
     max-width: 24ch;
   }
 
-  .essay {
+  .note-lede {
+    margin-top: var(--space-8);
+  }
+
+  .contents {
+    /* Same font as the note body, so the measure and the rule match it */
     font: var(--essay);
+    max-width: var(--measure);
+    margin-bottom: var(--space-12);
+    border-top: var(--stroke-hair) solid var(--line);
+    padding-top: var(--space-2);
+  }
+
+  .contents ol {
+    list-style: none;
+    padding: 0;
+    margin-top: var(--space-2);
+    columns: 2 15rem;
+    column-gap: var(--space-8);
+  }
+
+  .contents li {
+    font: var(--small);
+    padding-block: var(--space-1);
+    break-inside: avoid;
+  }
+</style>
+
+<style is:global>
+  /* Note body. Markdown output carries no scoping attribute, so these rules
+     are global and everything starts with .essay. */
+  .essay {
+    --font-mono: ui-monospace, "SFMono-Regular", Menlo, Consolas, "Liberation Mono", monospace;
+    font: var(--essay);
+    display: grid;
+    /* Text keeps the reading measure; tables may use the space beside it. */
+    grid-template-columns: minmax(0, var(--measure)) minmax(0, 1fr);
+  }
+
+  .essay > * {
+    grid-column: 1;
+  }
+
+  .essay > :first-child {
+    margin-top: 0;
+  }
+
+  .essay p {
+    text-wrap: pretty;
+  }
+
+  .essay strong {
+    font-weight: 600;
+  }
+
+  /* Sections get a hairline over them, like the cases on /work */
+  .essay > h2 {
+    border-top: var(--stroke-hair) solid var(--line);
+    padding-top: var(--space-8);
+  }
+
+  .essay > h3 {
+    font: var(--title);
+    margin-top: var(--space-8);
+  }
+
+  .essay > h3 + * {
+    margin-top: var(--space-2);
+  }
+
+  .essay h2,
+  .essay h3 {
+    scroll-margin-top: var(--space-4);
+  }
+
+  .essay > ul,
+  .essay > ol {
+    padding-left: 1.25em;
+  }
+
+  .essay > ul > li + li,
+  .essay > ol > li + li {
+    margin-top: var(--space-2);
+  }
+
+  .essay li::marker {
+    color: var(--ink-soft);
+  }
+
+  /* Tables: hairline rows, label-style headers, sans at small size */
+  .essay > table {
+    grid-column: 1 / -1;
+    max-width: 60rem;
+    margin-block: var(--space-8) var(--space-4);
+  }
+
+  .essay table {
+    width: 100%;
+    border-collapse: collapse;
+    font: var(--small);
+  }
+
+  .essay th {
+    font: var(--label);
+    color: var(--ink-soft);
+    text-align: left;
+    vertical-align: bottom;
+    padding: 0 var(--space-4) var(--space-2) 0;
+  }
+
+  .essay td {
+    vertical-align: top;
+    padding: var(--space-2) var(--space-4) var(--space-2) 0;
+    border-top: var(--stroke-hair) solid var(--line);
+  }
+
+  .essay th:last-child,
+  .essay td:last-child {
+    padding-right: 0;
+  }
+
+  .essay tbody tr:last-child td {
+    border-bottom: var(--stroke-hair) solid var(--line);
+  }
+
+  .essay td:first-child {
+    font-weight: 600;
+  }
+
+  /* Narrow screens: one record per row, each value under its column name */
+  @media (max-width: 40rem) {
+    .essay table,
+    .essay tbody,
+    .essay tr,
+    .essay td {
+      display: block;
+    }
+
+    .essay thead {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0 0 0 0);
+      white-space: nowrap;
+      border: 0;
+    }
+
+    .essay tr {
+      border-top: var(--stroke-hair) solid var(--line);
+      padding-block: var(--space-2) var(--space-4);
+    }
+
+    .essay tbody tr:last-child {
+      border-bottom: var(--stroke-hair) solid var(--line);
+    }
+
+    .essay td,
+    .essay tbody tr:last-child td {
+      border: 0;
+      padding: var(--space-2) 0 0;
+    }
+
+    .essay td::before {
+      content: attr(data-label);
+      display: block;
+      font: var(--label);
+      color: var(--ink-soft);
+    }
+
+    .essay td:first-child {
+      font: var(--body);
+      font-weight: 600;
+      padding-top: 0;
+    }
+
+    .essay td:first-child::before {
+      content: none;
+    }
+  }
+
+  /* Code: machine-readable text only, on raised paper */
+  .essay code {
+    font-family: var(--font-mono);
+    font-size: 0.875em;
+  }
+
+  .essay :not(pre) > code {
+    padding: 0.05em 0.3em;
+    background: var(--raised);
+    border-radius: var(--radius-2);
+  }
+
+  .essay pre {
+    padding: var(--space-4);
+    background: var(--raised);
+    border-radius: var(--radius-2);
+    font: 400 0.875rem / 1.375rem var(--font-mono);
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+  }
+
+  .essay pre code {
+    font-size: inherit;
+  }
+
+  /* Checklists: a hairline box, as on a printed form */
+  .essay .contains-task-list {
+    list-style: none;
+    padding-left: 0;
+  }
+
+  .essay .task-list-item {
+    position: relative;
+    padding-left: 1.6em;
+  }
+
+  .essay .task-list-item input {
+    appearance: none;
+    position: absolute;
+    left: 0;
+    top: 0.5em;
+    /* Form controls don't inherit the font size, and the box is sized in em */
+    font: inherit;
+    width: 0.7em;
+    height: 0.7em;
+    margin: 0;
+    border: var(--stroke-hair) solid var(--line);
+    border-radius: 0;
+    background: transparent;
+  }
+
+  .essay .task-list-item input:checked {
+    background: var(--ink);
+  }
+
+  /* A sequence figure: the duration leads, like the day on /agent-day */
+  .essay .sequence {
+    margin-block: var(--space-8) var(--space-4);
+    font: var(--body);
+  }
+
+  .essay .sequence ol {
+    list-style: none;
+    padding: 0;
+    border-bottom: var(--stroke-hair) solid var(--line);
+  }
+
+  .essay .sequence li {
+    display: grid;
+    gap: var(--space-1) var(--space-4);
+    padding-block: var(--space-4);
+    border-top: var(--stroke-hair) solid var(--line);
+  }
+
+  @media (min-width: 40rem) {
+    .essay .sequence li {
+      grid-template-columns: 7.5rem minmax(0, 1fr);
+    }
+  }
+
+  .essay .sequence__time {
+    font: var(--label);
+    color: var(--ink-soft);
+    padding-top: 0.25rem;
+  }
+
+  /* The cloudberry dot from the mark, on the step the figure is about */
+  .essay .sequence__key strong::before {
+    content: "";
+    display: inline-block;
+    width: 0.6em;
+    height: 0.6em;
+    margin-right: 0.4em;
+    border-radius: var(--radius-round);
+    background: var(--mark);
+    vertical-align: 0.05em;
+  }
+
+  .essay .sequence figcaption {
+    margin-top: var(--space-4);
+    font: var(--small);
+    color: var(--ink-soft);
   }
 </style>
