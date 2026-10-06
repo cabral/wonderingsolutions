@@ -47,7 +47,7 @@ toc: false
 Text here.
 ```
 
-It shows up at `/notes/some-slug/` and on the Notes index. Set `toc: true` on long notes to list their sections under the summary.
+It shows up at `/notes/some-slug/` and on the Notes index. Set `toc: true` on long notes to list their sections under the summary. To give a note its own share card, put a 1200x630 PNG in `public/og/` and add `image: /og/some-slug.png` with an `imageAlt`; `public/og/agentic-development-dojo.png` shows the layout, which keeps the frame of the default `og.png`.
 
 Tables can be as wide as the content needs. On phones each row becomes a record with the column names as labels; a small plugin in `astro.config.mjs` copies the headers onto the cells. Code blocks render plain in the site's colours, and quotes stay straight, as on the other pages. For a timed sequence of steps, use a `<figure class="sequence">` the way the dojo note does.
 

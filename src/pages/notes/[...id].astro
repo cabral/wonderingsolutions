@@ -13,7 +13,12 @@ const fmt = new Intl.DateTimeFormat('en-GB', { day: 'numeric', month: 'long', ye
 // Long notes set `toc: true` and get a list of their sections.
 const contents = note.data.toc ? headings.filter((h) => h.depth === 2) : [];
 ---
-<Base title={note.data.title} description={note.data.summary ?? note.data.title}>
+<Base
+  title={note.data.title}
+  description={note.data.summary ?? note.data.title}
+  image={note.data.image}
+  imageAlt={note.data.image ? (note.data.imageAlt ?? note.data.title) : undefined}
+>
   <article class="wrap">
     <header class="page-head">
       <p class="small"><a href="/notes/">Notes</a>, <time datetime={note.data.date.toISOString()}>{fmt.format(note.data.date)}</time></p>

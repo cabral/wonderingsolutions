@@ -3,6 +3,8 @@ title: The Agentic Development Dojo playbook
 date: 2026-10-06
 summary: How to run a coding dojo where developers practise building software with AI agents, which agile practices survive, and eleven katas to start with.
 toc: true
+image: /og/agentic-development-dojo.png
+imageAlt: "Wondering Solutions note: The Agentic Development Dojo playbook. One round runs next step, predict, run, verify, commit or revert, rotate. Felipe Cabral, AI and data consultant in Stockholm."
 ---
 
 ## How to use this playbook
