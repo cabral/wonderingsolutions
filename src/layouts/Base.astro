@@ -9,6 +9,7 @@ interface Props {
   // Share card for LinkedIn, Slack and the like. 1200x630, path under public/.
   image?: string;
   imageAlt?: string;
+  noindex?: boolean;
 }
 
 const {
@@ -16,6 +17,7 @@ const {
   description,
   image = '/og.png',
   imageAlt = `${site.name}: I build systems that make things visible. ${site.person}, ${site.role} in ${site.city}.`,
+  noindex = false,
 } = Astro.props;
 const fullTitle = title ? `${title} | ${site.name}` : `${site.person} | ${site.role} in ${site.city}`;
 const canonical = new URL(Astro.url.pathname, Astro.site);
@@ -29,6 +31,7 @@ const path = Astro.url.pathname.replace(/\/?$/, '/');
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{fullTitle}</title>
     <meta name="description" content={description} />
+    {noindex && <meta name="robots" content="noindex, follow" />}
     <link rel="canonical" href={canonical} />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <meta name="theme-color" content="#F1F2EE" media="(prefers-color-scheme: light)" />

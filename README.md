@@ -30,6 +30,7 @@ Node 22 or newer.
 | `src/content/notes/` | Notes as Markdown files |
 | `src/pages/notes/[...id].astro` | The note page: contents list, and the styles for tables, code, checklists and sequence figures |
 | `astro.config.mjs` | Site URL, and the Markdown settings for notes |
+| `public/robots.txt` | Search engine crawler rules, published at `/robots.txt` |
 
 ## Writing a note
 
