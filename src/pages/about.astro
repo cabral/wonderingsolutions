@@ -1,8 +1,15 @@
 ---
 import Base from '../layouts/Base.astro';
 import { site } from '../config';
+import { graph, person, website, websiteId } from '../schema';
 ---
 <Base
+  schema={graph(website, {
+    '@type': 'ProfilePage',
+    url: new URL('/about/', Astro.site).href,
+    isPartOf: { '@id': websiteId },
+    mainEntity: person,
+  })}
   title="About Felipe Cabral"
   description="Felipe Cabral. Fifteen years across startups, engineering leadership and civic tech, from Porto Alegre to Stockholm."
 >

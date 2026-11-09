@@ -1,5 +1,6 @@
 // @ts-check
 import { defineConfig } from 'astro/config';
+import sitemap from '@astrojs/sitemap';
 import { satteri } from '@astrojs/markdown-satteri';
 import { defineHastPlugin } from 'satteri';
 
@@ -45,13 +46,40 @@ const labelTableCells = defineHastPlugin({
   },
 });
 
+// Pages rendered with `noindex` in Base.astro. Keep in step with those pages.
+const noindexPaths = ['/agent-day/'];
+
+// Markdown checklists in notes are blank forms to print or copy, and the
+// disabled checkbox is only a box drawn before the text. Hide it from screen
+// readers so each item reads once, as plain list text.
+const hideChecklistBoxes = defineHastPlugin({
+  name: 'hide-checklist-boxes',
+  element: {
+    filter: ['input'],
+    visit(input, ctx) {
+      if (input.properties?.type === 'checkbox' && input.properties?.disabled) {
+        ctx.setProperty(input, 'ariaHidden', 'true');
+      }
+    },
+  },
+});
+
 export default defineConfig({
   site: 'https://wonderingsolutions.com',
   trailingSlash: 'ignore',
-  build: { format: 'directory' },
+  build: {
+    format: 'directory',
+    // The CSS is a few KB, so it goes in the page. No render-blocking request,
+    // and the browser finds the font files on the first parse.
+    inlineStylesheets: 'always',
+  },
+  integrations: [
+    // Writes /sitemap-index.xml. Pages marked noindex stay out of it.
+    sitemap({ filter: (page) => !noindexPaths.some((p) => page.endsWith(p)) }),
+  ],
   markdown: {
     processor: satteri({
-      hastPlugins: [labelTableCells],
+      hastPlugins: [labelTableCells, hideChecklistBoxes],
       // Straight quotes, the same as every .astro page on the site.
       features: { smartPunctuation: false },
     }),
