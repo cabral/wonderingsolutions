@@ -29,8 +29,9 @@ Node 22 or newer.
 | `src/pages/agent-day.astro` | Agent Day offer page. Unlisted: linked from nowhere, not in the nav |
 | `src/content/notes/` | Notes as Markdown files |
 | `src/pages/notes/[...id].astro` | The note page: contents list, and the styles for tables, code, checklists and sequence figures |
-| `astro.config.mjs` | Site URL, and the Markdown settings for notes |
-| `public/robots.txt` | Search engine crawler rules, published at `/robots.txt` |
+| `astro.config.mjs` | Site URL, the sitemap, and the Markdown settings for notes |
+| `src/schema.ts` | schema.org structured data (Person, WebSite) that pages pass to `Base` as `schema` |
+| `public/robots.txt` | Search engine crawler rules, published at `/robots.txt`. Points at the sitemap |
 
 ## Writing a note
 
@@ -48,9 +49,13 @@ toc: false
 Text here.
 ```
 
-It shows up at `/notes/some-slug/` and on the Notes index. Set `toc: true` on long notes to list their sections under the summary. To give a note its own share card, put a 1200x630 PNG in `public/og/` and add `image: /og/some-slug.png` with an `imageAlt`; `public/og/agentic-development-dojo.png` shows the layout, which keeps the frame of the default `og.png`.
+It shows up at `/notes/some-slug/`, on the Notes index and in `/sitemap-index.xml`, with `og:type` article and BlogPosting structured data. Set `toc: true` on long notes to list their sections under the summary. To give a note its own share card, put a 1200x630 PNG in `public/og/` and add `image: /og/some-slug.png` with an `imageAlt`; `public/og/agentic-development-dojo.png` shows the layout, which keeps the frame of the default `og.png`.
 
 Tables can be as wide as the content needs. On phones each row becomes a record with the column names as labels; a small plugin in `astro.config.mjs` copies the headers onto the cells. Code blocks render plain in the site's colours, and quotes stay straight, as on the other pages. For a timed sequence of steps, use a `<figure class="sequence">` the way the dojo note does.
+
+## Search
+
+`@astrojs/sitemap` writes `/sitemap-index.xml` on every build. Pages rendered with `noindex` (only /agent-day today) are listed in `noindexPaths` in `astro.config.mjs` so they stay out of it; keep that list in step if you add another.
 
 ## Before launch
 

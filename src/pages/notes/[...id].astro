@@ -1,6 +1,7 @@
 ---
 import { getCollection, render } from 'astro:content';
 import Base from '../../layouts/Base.astro';
+import { graph, person, personId, website, websiteId } from '../../schema';
 
 export async function getStaticPaths() {
   const notes = await getCollection('notes', ({ data }) => !data.draft);
@@ -12,8 +13,26 @@ const { Content, headings } = await render(note);
 const fmt = new Intl.DateTimeFormat('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
 // Long notes set `toc: true` and get a list of their sections.
 const contents = note.data.toc ? headings.filter((h) => h.depth === 2) : [];
+const url = new URL(`/notes/${note.id}/`, Astro.site).href;
+const schema = graph(website, person, {
+  '@type': 'BlogPosting',
+  '@id': `${url}#article`,
+  headline: note.data.title,
+  description: note.data.summary ?? note.data.title,
+  datePublished: note.data.date.toISOString(),
+  url,
+  mainEntityOfPage: url,
+  image: new URL(note.data.image ?? '/og.png', Astro.site).href,
+  inLanguage: 'en',
+  author: { '@id': personId },
+  publisher: { '@id': personId },
+  isPartOf: { '@id': websiteId },
+});
 ---
 <Base
+  type="article"
+  published={note.data.date}
+  schema={schema}
   title={note.data.title}
   description={note.data.summary ?? note.data.title}
   image={note.data.image}
@@ -72,8 +91,13 @@ const contents = note.data.toc ? headings.filter((h) => h.depth === 2) : [];
 
   .contents li {
     font: var(--small);
-    padding-block: var(--space-1);
     break-inside: avoid;
+  }
+
+  /* The padding sits on the link, so the whole row is the tap target */
+  .contents a {
+    display: inline-block;
+    padding-block: var(--space-1);
   }
 </style>
 
@@ -176,6 +200,12 @@ const contents = note.data.toc ? headings.filter((h) => h.depth === 2) : [];
 
   .essay td:first-child {
     font-weight: 600;
+  }
+
+  /* Links that fill a cell (sources, kata names) need a 24px tap height */
+  .essay td a {
+    display: inline-block;
+    padding-block: var(--space-1);
   }
 
   /* Narrow screens: one record per row, each value under its column name */

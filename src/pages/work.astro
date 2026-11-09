@@ -260,5 +260,12 @@ const mat = [
 
   .together__mail {
     font: var(--title);
+    /* The address is wider than a 390px phone at this size */
+    overflow-wrap: anywhere;
+  }
+
+  .together__mail a {
+    display: inline-block;
+    padding-block: var(--space-1);
   }
 </style>

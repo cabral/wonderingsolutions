@@ -1,6 +1,7 @@
 ---
 import Base from '../layouts/Base.astro';
 import Mark from '../components/Mark.astro';
+import { graph, person, website } from '../schema';
 
 const entries = [
   {
@@ -23,7 +24,9 @@ const entries = [
   },
 ];
 ---
-<Base description="Felipe Cabral, AI and data consultant in Stockholm. Enterprise data engineering, and open-source tools for public procurement transparency.">
+<Base
+  schema={graph(website, person)}
+  description="Felipe Cabral, AI and data consultant in Stockholm. Enterprise data engineering, and open-source tools for public procurement transparency.">
   <div class="wrap">
     <section class="hero" aria-labelledby="hero-title">
       <Mark size={112} draw class="hero__mark" />
@@ -98,7 +101,13 @@ const entries = [
   }
 
   .entry__link {
-    margin-top: var(--space-2);
+    margin-top: var(--space-1);
     font-weight: 600;
+  }
+
+  .entry__link a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
   }
 </style>
