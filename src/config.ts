@@ -12,7 +12,7 @@ export const site = {
   serenataRepo: 'https://github.com/cabral/serenata',
   // Form endpoint for "Notify me" (Buttondown, Formspree, etc.).
   // Leave empty and the form falls back to a pre-filled email.
-  notifyAction: '',
+  notifyAction: 'https://formspree.io/f/xzeeleko',
   // Booking link for /agent-day (Cal.com or similar).
   // Leave empty and the booking buttons fall back to a pre-filled email.
   bookingUrl: '',

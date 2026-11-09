@@ -55,7 +55,7 @@ Tables can be as wide as the content needs. On phones each row becomes a record 
 ## Before launch
 
 - `src/config.ts`: confirm the LinkedIn URL.
-- `src/config.ts`: set `notifyAction` to a real form endpoint (Buttondown, Formspree or similar). Until then "Notify me" opens an email to captain@wonderingsolutions.com.
+- `notifyAction` in `src/config.ts` points to the Formspree form "Wondering Solutions notify". Submissions arrive at captain@wonderingsolutions.com with a `tag` field (`serenata` or `estaleiro`). Add the live domain to the form's allowed domains in Formspree if you restrict them.
 - `src/config.ts`: set `bookingUrl` (Cal.com or similar). Until then the /agent-day booking buttons open an email.
 - `src/pages/agent-day.astro`: invoicing entity, payment terms and public dates for open seats are still TODO.
 - `src/components/SampleRecord.astro`: replace the illustrative values with a real TED notice and drop the "Illustrative" caption.
