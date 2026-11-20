@@ -21,7 +21,7 @@ const day = [
   { time: '09:30', block: 'Agent 1, the desk agent', length: '75 min', what: 'A grounded assistant for a recurring deliverable such as a status report, meeting prep or policy answers. Instructions written as a job description, the right files attached, five real test inputs.', output: 'Working agent and its agent card' },
   { time: '10:45', block: 'Break', length: '15 min' },
   { time: '11:00', block: 'Agent 2, the flow agent', length: '75 min', what: 'A multi-step agent that takes an action behind a human approval step, such as triaging requests, drafting replies or updating a tracker.', output: 'Working agent with a checkpoint' },
-  { time: '12:15', block: 'Walk-out check and lunch', length: '60 min', what: 'Every agent runs on real inputs; the guarantee is decided here.', output: 'Go or stop' },
+  { time: '12:15', block: 'Agent check and lunch', length: '60 min', what: 'Every agent runs on real inputs before it goes into the drill.', output: 'Agents ready for the afternoon' },
   { time: '13:15', block: 'Agent Fire Drill', length: '120 min', what: 'A tabletop incident on the agents the team just built.', output: 'Incident log, one fix per agent' },
   { time: '15:15', block: 'Break', length: '15 min' },
   { time: '15:30', block: 'Commit', length: '45 min', what: 'Agent cards finished: purpose, data touched, owner, human checkpoint, off switch. Each owner sets a 30-day usage target and times one run to measure minutes saved.', output: 'Agent cards, 30-day targets' },
@@ -53,12 +53,12 @@ const deck = [
   { name: 'The poisoned memory', what: "Someone plants a false rule in the agent's knowledge file.", risk: 'ASI06 Memory and Context Poisoning', control: 'Change control on knowledge files.' },
 ];
 
-// TODO: invoicing entity and payment terms. Public dates for open seats.
+// TODO: invoicing entity for payments. Public dates for open seats.
 const formats = [
-  { name: 'Agent Day', for: 'A team', length: '6 h on site, plus a 60 min clinic on day 30', group: 'Up to 12', price: 95000, included: 'Build, Fire Drill, agent cards, literacy records, a printed incident deck per team, the 30-day clinic.' },
-  { name: 'Two Agents in Three Hours', for: 'A team', length: '3 h', group: 'Up to 10', price: 35000, included: 'The build half, agent cards, literacy records.' },
-  { name: 'Agent Fire Drill for leaders', for: 'A leadership team or board', length: '90 min', group: 'Up to 10', price: 25000, included: 'Executive scenario, escalation map, decision log. The fee is credited in full to an Agent Day booked within 60 days.' },
-  { name: 'Open seat', for: 'Individuals and small firms', length: '3 h at Accelerated Growth, Birger Jarlsgatan 8, Stockholm', group: 'Up to 12', price: 6900, perSeat: true, included: 'Two Agents in Three Hours on a public date.' },
+  { name: 'Agent Day', for: 'A team', length: '6 h at Klustret Ekskäret, plus a 60 min clinic on day 30', group: 'Up to 12', included: 'Build, Fire Drill, agent cards, literacy records, a printed incident deck per team, the 30-day clinic.' },
+  { name: 'Two Agents in Three Hours', for: 'A team', length: '3 h', group: 'Up to 10', included: 'The build half, agent cards, literacy records.' },
+  { name: 'Agent Fire Drill for leaders', for: 'A leadership team or board', length: '90 min', group: 'Up to 10', included: 'Executive scenario, escalation map, decision log.' },
+  { name: 'Open seat', for: 'Individuals and small firms', length: '3 h at Klustret Ekskäret, Stockholm', group: 'Up to 12', included: 'Two Agents in Three Hours on a public date.' },
 ];
 
 const evidence = [
@@ -77,13 +77,13 @@ const faq = [
   { q: 'What if our IT blocks agent publishing?', a: "That's common. Teams build in the sandbox, and each agent card lists the approvals IT would need, so you leave with a clear request." },
   { q: 'Do participants need technical skills?', a: 'No. If they can write a clear email, they can write agent instructions. Nobody writes code.' },
   { q: 'Who should come?', a: 'People who own a repetitive deliverable: project and change managers, team leads, analysts, coordinators. Up to 12 per Agent Day.' },
-  { q: 'How does the walk-out guarantee work?', a: 'At lunch, every agent runs on real inputs. If your team has no working agent on one of its own tasks, we stop and you pay nothing. It applies when the intake and tech check were done.' },
+  { q: 'What does it cost?', a: 'Every format is pay what you want.' },
   { q: 'Does this make us compliant with the AI Act?', a: 'It gives you a documented AI literacy measure for every participant. Since 27 July 2026, Article 4 asks providers and deployers to take measures that support AI literacy. Whether your measures are enough is a question for your legal team. This is not legal advice.' },
   { q: 'Can we run it remotely?', a: 'The build half works well remotely. The Fire Drill works best in the room; the remote version runs on a shared online board.' },
   { q: 'What happens after the day?', a: 'A 60-minute remote clinic on day 30. We fix what broke, compare usage with each owner\'s target and send the numbers to your sponsor.' },
-  { q: 'Can we start with leadership only?', a: 'Yes. The Agent Fire Drill for leaders takes 90 minutes, and its fee is credited in full if you book an Agent Day within 60 days.' },
+  { q: 'Can we start with leadership only?', a: 'Yes. The Agent Fire Drill for leaders takes 90 minutes.' },
   { q: 'What language is it in?', a: 'English. Swedish materials on request.' },
-  { q: 'Where does it happen?', a: 'At your office, or at Accelerated Growth, Birger Jarlsgatan 8, Stockholm.' },
+  { q: 'Where does it happen?', a: 'At Klustret Ekskäret, on Odengatan in Stockholm.' },
 ];
 ---
 <Base
@@ -124,7 +124,7 @@ const faq = [
 
     <section class="section" aria-labelledby="day">
       <h2 id="day">How the day runs</h2>
-      <p class="column">Six hours on site, plus a 60-minute clinic on day 30.</p>
+      <p class="column">Six hours at Klustret Ekskäret, plus a 60-minute clinic on day 30.</p>
       <ol class="day">
         {day.map((d) => (
           <li class:list={['day__row', { 'is-break': !d.what }]}>
@@ -218,15 +218,13 @@ const faq = [
     </section>
 
     <section class="section" aria-labelledby="prices">
-      <h2 id="prices">Formats and prices</h2>
+      <h2 id="prices">Formats</h2>
+      <p class="column lede pwyw">Every format is pay what you want.</p>
       <div class="rows">
         {formats.map((f) => (
           <article class="row">
             <div>
               <h3 class="title">{f.name}</h3>
-              <p class="row__price">
-                {f.price.toLocaleString('en-US')} SEK ex VAT{f.perSeat && ' per seat'}
-              </p>
             </div>
             <dl class="row__fields">
               <div class="field"><dt>For</dt><dd>{f.for}</dd></div>
@@ -236,26 +234,6 @@ const faq = [
             </dl>
           </article>
         ))}
-      </div>
-      <p class="column after-rows">A full Agent Day works out to about 7,900 SEK a seat.</p>
-
-      <h3 class="sub">Guarantees</h3>
-      <div class="guarantees">
-        <div class="guarantee">
-          <h4 class="title">Walk-out guarantee</h4>
-          <p>
-            If your team has no working agent on one of its own tasks by lunch, we stop the day and
-            you pay nothing. "Working" means it runs on five real inputs and produces output its owner
-            would use. It applies when the intake and tech check were done.
-          </p>
-        </div>
-        <div class="guarantee">
-          <h4 class="title">Adoption guarantee</h4>
-          <p>
-            If fewer than half the participants use one of their agents weekly by day 30, the clinic
-            is repeated free.
-          </p>
-        </div>
       </div>
       <p class="column after-rows">
         Your effort: a 20-minute intake form per participant and a 30-minute tech check. Everything
@@ -314,10 +292,10 @@ const faq = [
     <section class="section" aria-labelledby="book">
       <h2 id="book">Book a call</h2>
       <div class="column prose">
-        <p>Agent Day runs at your office, or at Accelerated Growth, Birger Jarlsgatan 8, Stockholm.</p>
+        <p>Agent Day runs at Klustret Ekskäret, on Odengatan in Stockholm. Every format is pay what you want.</p>
         <p>
           To start with leadership only, <a href={book('Agent Fire Drill for leaders')}>book a
-          leadership drill</a>. Its fee is credited in full to an Agent Day booked within 60 days.
+          leadership drill</a>.
         </p>
       </div>
       <p class="cta">
@@ -493,11 +471,6 @@ const faq = [
     }
   }
 
-  .row__price {
-    margin-top: var(--space-1);
-    font-variant-numeric: tabular-nums;
-  }
-
   .row__fields {
     display: grid;
     gap: var(--space-4);
@@ -525,28 +498,12 @@ const faq = [
     margin-top: var(--space-2);
   }
 
+  .pwyw {
+    margin-bottom: var(--space-8);
+  }
+
   .after-rows {
     margin-top: var(--space-4);
-  }
-
-  .guarantees {
-    display: grid;
-    gap: var(--space-8);
-    max-width: 60rem;
-  }
-
-  @media (min-width: 768px) {
-    .guarantees {
-      grid-template-columns: 1fr 1fr;
-    }
-  }
-
-  .guarantee {
-    display: grid;
-    align-content: start;
-    gap: var(--space-2);
-    border-top: var(--stroke-trail) solid var(--ink);
-    padding-top: var(--space-4);
   }
 
   .faq {

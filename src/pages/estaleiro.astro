@@ -3,10 +3,49 @@ import Base from '../layouts/Base.astro';
 import CirclePlan from '../components/CirclePlan.astro';
 import Notify from '../components/Notify.astro';
 import VideoEmbed from '../components/VideoEmbed.astro';
+
+const thenAndNow = [
+  ['Circles with rotating leadership and the five agreements', 'The same circles, plus pods of four that run from a written guide'],
+  ['Everything held by the founders', 'A written guide for every part that must outlive the founder'],
+  ['The Friday open door', 'The open door, now a monthly commons evening at Klustret'],
+  ['Nothing mandatory', 'One commitment: pod attendance'],
+  ['Success told as stories', 'Outcomes counted at six and twelve months'],
+];
+
+const rings = [
+  { ring: 'You', size: '1, daily', job: 'Take the step, keep the loggbok', held: 'The participant' },
+  { ring: 'Pod', size: '4, weekly, 1 hour', job: 'Witness traces, resize steps, name obstacles', held: 'A rotating member, from a written guide' },
+  { ring: 'Cohort', size: 'About 12, weekly circle', job: 'See peers move; first showing of work', held: 'Pirates, the programme\'s facilitators' },
+  { ring: 'Commons', size: 'Open, monthly', job: 'Host, ask, offer, meet strangers', held: 'Hosts from the cohort and alumni' },
+  { ring: 'Their own people', size: 'From zero, when they host', job: 'The dream\'s own community', held: 'The participant' },
+];
+
+const week = [
+  {
+    title: 'The step card',
+    text: 'On Sunday she writes down one step: email two bakers on Södermalm and ask each for twenty minutes. She will do it after Tuesday dinner, at the kitchen table. If it goes nowhere, she loses an hour and a little pride.',
+  },
+  {
+    title: 'The step, alone',
+    text: 'On Tuesday she writes the emails and starts rewriting them. Her card has a line for that: "If I start rewriting, then I send it as it is." She sends them.',
+  },
+  {
+    title: 'The pod, one hour',
+    text: 'Four people, a written script, no facilitator. Maria shows the two sent emails. Each of the others names one thing she did. Then she reads out her next step: visit the baker who answered.',
+  },
+  {
+    title: 'The circle, one evening',
+    text: 'The cohort of twelve meets with the two or three people who hold the programme, called pirates. Around it there is a weekly one-to-one with a pirate, workshops on tools, and time for making things side by side.',
+  },
+  {
+    title: 'The commons, once a month',
+    text: 'In week nine Maria hosts twenty minutes on sourdough at Klustret and asks the room one question: who knows a café that would sell twelve loaves on a Saturday? If someone says yes, her dream has its first commitment from outside.',
+  },
+];
 ---
 <Base
   title="Estaleiro: Self-Directed Entrepreneurship"
-  description="Estaleiro Liberdade, a Brazilian self-directed entrepreneurship programme from 2012, now being rebuilt in Stockholm with Klustret Ekskäret."
+  description="Estaleiro Liberdade, a Brazilian self-directed entrepreneurship programme from 2012, and an open proposal to relaunch it in Stockholm with Klustret Ekskäret as Freedom Shipyard."
 >
   <div class="wrap">
     <header class="page-head">
@@ -14,11 +53,12 @@ import VideoEmbed from '../components/VideoEmbed.astro';
       <h1 class="display estaleiro-title">A school of entrepreneurship through <span class="nowrap">self-knowledge.</span> But pirate.</h1>
       <div class="column prose intro">
         <p class="lede">
-          That was the tagline, and it was accurate. Estaleiro Liberdade ran in Porto Alegre from
-          2012, in a shared house on Rua Liberdade that several social-impact organisations were
-          using at the same time. We started by opening the doors every Friday for free teaching and
-          learning sessions. The first cohort of five began in August 2012. By 2014 it had reached
-          São Paulo with groups of up to 24.
+          That was the tagline, and it was accurate. Estaleiro Liberdade, Freedom Shipyard in
+          English, began in 2012 in a shared house at Rua Liberdade 553 in Porto Alegre. Every
+          Friday a group of us opened the house for free sessions where anyone could teach or learn
+          something, and the programme grew out of that open door. The first cohort of five started
+          in August 2012. By 2013 cohorts had about twelve people, and in 2014 the programme opened
+          in São Paulo.
         </p>
         <p>
           I co-founded it and served as president of the formal organisation. My part ran through
@@ -72,13 +112,16 @@ import VideoEmbed from '../components/VideoEmbed.astro';
       <h2 id="out">What came out of it</h2>
       <div class="column prose">
         <p>
-          Small things, mostly, which is what happens when cohorts are a dozen people. Herói Postal
-          turned emails into handwritten physical letters, with the income shared with hospitalised
-          people who wrote them. One participant left with a writing project he'd been avoiding for
-          years and started it. A facilitator built a career transition programme of her own out of
-          the experience.
+          Projects, small ones, which is what happens when cohorts are a dozen people. Herói Postal,
+          from the first cohort, turned emails into handwritten letters written by people in
+          hospital, who shared the income. Ninho de Escritores, a project for writers, began there,
+          and one facilitator went on to create Programa Travessia, a programme for career
+          transitions.
         </p>
-        <p>The programme carried on without me for a while and wound down around 2015.</p>
+        <p>
+          What ended it was dependence on its founders. The programme ran on our attention, and when
+          that attention moved to other ventures, it stopped, around 2016.
+        </p>
       </div>
     </section>
 
@@ -109,11 +152,124 @@ import VideoEmbed from '../components/VideoEmbed.astro';
           in 2012, when we called it <span lang="pt">autoconhecimento</span> and had to explain it
           every single time.
         </p>
-        <p>We're building a version of Estaleiro there. Details when there are details.</p>
+        <p>
+          I'm a member, and I've written a proposal for relaunching Estaleiro there under the
+          working name Freedom Shipyard. Nothing is agreed yet. The rest of this page is that
+          proposal, published while it's still open so anyone can read it and push back.
+        </p>
       </div>
-      <div class="notify-wrap">
-        <Notify list="estaleiro" lead="More soon. Leave your email if you want to know when." />
+    </section>
+
+    <section class="section" aria-labelledby="idea">
+      <h2 id="idea">The proposal</h2>
+      <div class="column prose">
+        <p class="lede">
+          People grow a dream through small steps they take alone. A group of four keeps them going,
+          and a wider community gives the dream somewhere to become real.
+        </p>
+        <p>
+          Freedom Shipyard is a thirteen-week programme for people in a transition: between jobs,
+          changing direction, or carrying a project they keep not starting. Each person works on
+          their own dream, at their own pace.
+        </p>
+        <p>
+          Each week a participant takes one small step alone, sized so it can be done on a bad day.
+          They show what the step left behind to a pod, four people who meet for an hour with no
+          facilitator. The pod celebrates what was done and helps with the next step. A step that
+          didn't happen was too big, so the pod helps shrink it.
+        </p>
+        <p>
+          About twelve people form a cohort and meet in a weekly circle. Once a month the programme
+          opens its door at Klustret: participants host short sessions on what they are building,
+          and members and guests come to ask and to offer. That evening is called the commons.
+        </p>
+        <p>
+          A dream counts as real when someone outside the programme commits something to it: an
+          hour, a room, money or their name. Nobody is pushed to launch. A person who keeps a daily
+          practice for thirteen weeks and never launches has done the work too, and every step is
+          celebrated.
+        </p>
       </div>
+
+      <h3 class="title sub">Five rings</h3>
+      <div class="column prose">
+        <p>
+          Five rings carry the support. Each person moves outward one ring at a time, at their own
+          pace: practice alone, then show, then ask. The pod looks after the person, and the commons
+          looks after the dream.
+        </p>
+      </div>
+      <div class="table-scroll">
+        <table class="grid-table rings" role="table">
+          <caption class="visually-hidden">The five rings of Freedom Shipyard</caption>
+          <thead role="rowgroup">
+            <tr role="row">
+              <th scope="col" role="columnheader">Ring</th>
+              <th scope="col" role="columnheader">Size and rhythm</th>
+              <th scope="col" role="columnheader">Job</th>
+              <th scope="col" role="columnheader">Held by</th>
+            </tr>
+          </thead>
+          <tbody role="rowgroup">
+            {rings.map((r) => (
+              <tr role="row">
+                <th scope="row" role="rowheader">{r.ring}</th>
+                <td role="cell" data-label="Size and rhythm">{r.size}</td>
+                <td role="cell" data-label="Job">{r.job}</td>
+                <td role="cell" data-label="Held by">{r.held}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+
+      <h3 class="title sub">What changes from Porto Alegre</h3>
+      <div class="table-scroll">
+        <table class="grid-table">
+          <caption class="visually-hidden">Estaleiro in Porto Alegre compared with the Stockholm proposal</caption>
+          <thead>
+            <tr>
+              <th scope="col">Porto Alegre, 2012 to 2016</th>
+              <th scope="col">Stockholm</th>
+            </tr>
+          </thead>
+          <tbody>
+            {thenAndNow.map(([then, now]) => (
+              <tr>
+                <td>{then}</td>
+                <td>{now}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="week">
+      <h2 id="week">A week inside</h2>
+      <div class="column prose">
+        <p class="lede">
+          An invented example, to show the size of things. Maria wants to open a small bakery and has
+          never sold a loaf.
+        </p>
+        <ol class="steps">
+          {week.map((s) => (
+            <li>
+              <h3 class="steps__title">{s.title}</h3>
+              <p>{s.text}</p>
+            </li>
+          ))}
+        </ol>
+        <p class="small">
+          Someone else in her pod may spend the same weeks on a daily writing practice and never
+          show it to anyone outside. Both are doing the programme as designed.
+        </p>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="follow">
+      <h2 id="follow">Follow it</h2>
+      <Notify list="estaleiro" lead="Find me at Klustret, or leave your email and I'll write when there's news." />
     </section>
   </div>
 </Base>
@@ -156,7 +312,117 @@ import VideoEmbed from '../components/VideoEmbed.astro';
     margin-block: var(--space-12);
   }
 
-  .notify-wrap {
-    margin-top: var(--space-8);
+  .sub {
+    margin-top: var(--space-12);
+    margin-bottom: var(--space-4);
+  }
+
+  .table-scroll {
+    overflow-x: auto;
+    max-width: 48rem;
+    margin-top: var(--space-4);
+  }
+
+  .grid-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  .grid-table th,
+  .grid-table td {
+    text-align: left;
+    vertical-align: top;
+    padding: var(--space-2) var(--space-4) var(--space-2) 0;
+  }
+
+  .grid-table thead th {
+    font: var(--label);
+    color: var(--ink-soft);
+  }
+
+  .grid-table tbody th,
+  .grid-table tbody td {
+    border-top: var(--stroke-hair) solid var(--line);
+  }
+
+  .grid-table tbody th {
+    font-weight: 600;
+    white-space: nowrap;
+  }
+
+  .grid-table tbody tr:last-child > * {
+    border-bottom: var(--stroke-hair) solid var(--line);
+  }
+
+  /* Narrow screens: one record per ring, each value under its column name,
+     as in the note tables. Explicit roles keep the table for screen readers. */
+  @media (max-width: 40rem) {
+    .rings,
+    .rings tbody,
+    .rings tr,
+    .rings tbody th,
+    .rings tbody td {
+      display: block;
+    }
+
+    .rings thead {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0 0 0 0);
+      white-space: nowrap;
+      border: 0;
+    }
+
+    .rings tbody tr {
+      border-top: var(--stroke-hair) solid var(--line);
+      padding-block: var(--space-2) var(--space-4);
+    }
+
+    .rings tbody tr:last-child {
+      border-bottom: var(--stroke-hair) solid var(--line);
+    }
+
+    .rings tbody th,
+    .rings tbody td,
+    .rings tbody tr:last-child > * {
+      border: 0;
+      padding: var(--space-2) 0 0;
+    }
+
+    .rings tbody td::before {
+      content: attr(data-label);
+      display: block;
+      font: var(--label);
+      color: var(--ink-soft);
+    }
+  }
+
+  .steps {
+    padding: 0;
+    list-style: none;
+    counter-reset: step;
+  }
+
+  .steps li {
+    counter-increment: step;
+    display: grid;
+    grid-template-columns: 2rem minmax(0, 1fr);
+    column-gap: var(--space-2);
+    border-top: var(--stroke-hair) solid var(--line);
+    padding-block: var(--space-4);
+  }
+
+  .steps li::before {
+    content: counter(step);
+    grid-row: span 2;
+    font: var(--title);
+  }
+
+  .steps__title {
+    font-weight: 600;
   }
 </style>
