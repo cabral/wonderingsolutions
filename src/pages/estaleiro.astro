@@ -42,34 +42,6 @@ const week = [
     text: 'In week nine Maria hosts twenty minutes on sourdough at Klustret and asks the room one question: who knows a café that would sell twelve loaves on a Saturday? If someone says yes, her dream has its first commitment from outside.',
   },
 ];
-
-const needs = [
-  'Rooms, booked and paid for like any member booking. Arenan fits the circle and the commons, and Utsikten fits a pod of four.',
-  'One open commons evening a month on Klustret\'s programme.',
-  'A contact person at Klustret, and a shared review when the thirteen weeks end.',
-];
-
-const gets = [
-  'A monthly evening of member-led sessions by people building something.',
-  'A path for newcomers: visitor, then host, then participant, later pod guide or pirate.',
-  'A programme written down to run without its founder in the room.',
-  'Counted results, shared in full.',
-];
-
-const backIt = [
-  'If you\'d like to see this at Klustret, say so. A proposal with members behind it gets a different hearing.',
-  'Come to the first commons evening.',
-  'Think of one person in a transition who should hear about this, and tell them.',
-  'Offer a workshop on a tool you use. Workshops are proposed, never required, and an hour is enough.',
-  'Consider holding a cohort as a pirate. It asks for steadiness more than charisma, and a twelve-hour course in mental health first aid.',
-  'Tell me what would make you say no. I know some of the weak spots and would like to hear the ones I missed.',
-];
-
-const phases = [
-  { name: 'Before the first circle', text: 'Screening conversations with every applicant. Pirates trained. Pods formed among people who don\'t know each other.' },
-  { name: 'During the thirteen weeks', text: 'Weekly pods without pirates, a weekly circle with them, and one commons evening a month.' },
-  { name: 'After', text: 'Each pod decides whether to keep meeting. Follow-up at six and twelve months, shared with Klustret.' },
-];
 ---
 <Base
   title="Estaleiro: Self-Directed Entrepreneurship"
@@ -228,23 +200,23 @@ const phases = [
         </p>
       </div>
       <div class="table-scroll">
-        <table class="grid-table">
+        <table class="grid-table rings" role="table">
           <caption class="visually-hidden">The five rings of Freedom Shipyard</caption>
-          <thead>
-            <tr>
-              <th scope="col">Ring</th>
-              <th scope="col">Size and rhythm</th>
-              <th scope="col">Job</th>
-              <th scope="col">Held by</th>
+          <thead role="rowgroup">
+            <tr role="row">
+              <th scope="col" role="columnheader">Ring</th>
+              <th scope="col" role="columnheader">Size and rhythm</th>
+              <th scope="col" role="columnheader">Job</th>
+              <th scope="col" role="columnheader">Held by</th>
             </tr>
           </thead>
-          <tbody>
+          <tbody role="rowgroup">
             {rings.map((r) => (
-              <tr>
-                <th scope="row">{r.ring}</th>
-                <td>{r.size}</td>
-                <td>{r.job}</td>
-                <td>{r.held}</td>
+              <tr role="row">
+                <th scope="row" role="rowheader">{r.ring}</th>
+                <td role="cell" data-label="Size and rhythm">{r.size}</td>
+                <td role="cell" data-label="Job">{r.job}</td>
+                <td role="cell" data-label="Held by">{r.held}</td>
               </tr>
             ))}
           </tbody>
@@ -295,104 +267,9 @@ const phases = [
       </div>
     </section>
 
-    <section class="section" aria-labelledby="known">
-      <h2 id="known">What is known, and what isn't</h2>
-      <div class="column prose">
-        <p class="lede">
-          The method is built from research on how people act on their goals. Its parts have been
-          tested. The whole has not.
-        </p>
-        <h3 class="title">What the research supports</h3>
-        <ul class="bullets">
-          <li>
-            Writing progress down and showing it to other people raises the chance of reaching a goal
-            (138 experiments, about 20,000 people).
-          </li>
-          <li>
-            Tying an action to a time and a place helps people do it (94 tests). It holds best for
-            single actions, which is what a weekly step is.
-          </li>
-          <li>
-            Job-search programmes built from the same ingredients raised the odds of finding work
-            2.67 times across 47 evaluations. That is a neighbouring field, with different people.
-          </li>
-        </ul>
-        <h3 class="title">What nobody knows yet</h3>
-        <p>
-          Nobody has tested this combination. The original programme left stories and no counts.
-          Twelve people are too few to prove an effect, so the first cohort is a pilot with four
-          questions: does it run, do people keep taking steps, does anyone get hurt, and do the pods
-          hold without me in the room.
-        </p>
-        <h3 class="title">What gets counted and shared</h3>
-        <p>
-          Every week: steps taken, shrunk and missed, commitments from people outside, and everyone
-          who leaves, with their reason. At six and twelve months: projects shipped, changes in work
-          or income, and pods still meeting. Klustret sees all of it, including what went badly.
-        </p>
-        <p class="aside">
-          Safety is planned before the first circle: a screening conversation with every applicant,
-          pirates trained in mental health first aid, a right to pass on anything, and a referral
-          list in every room.
-        </p>
-      </div>
-    </section>
-
-    <section class="section" aria-labelledby="klustret">
-      <h2 id="klustret">What it needs from Klustret</h2>
-      <div class="column prose">
-        <p>
-          Klustret already gathers entrepreneurs, thinkers and people working for change, and runs
-          dialogues, workshops and events on the conscious development of people and organisations.
-          Freedom Shipyard needs that kind of place for its commons, and I'd like the first cohort to
-          live there.
-        </p>
-      </div>
-      <div class="two-col">
-        <div>
-          <h3 class="title">It needs</h3>
-          <ul class="bullets">
-            {needs.map((n) => <li>{n}</li>)}
-          </ul>
-        </div>
-        <div>
-          <h3 class="title">Klustret gets</h3>
-          <ul class="bullets">
-            {gets.map((g) => <li>{g}</li>)}
-          </ul>
-        </div>
-      </div>
-      <div class="column prose">
-        <p class="aside">
-          Money is left out of the proposal on purpose. Rooms are rented at the member rate. How the
-          rest is paid for will be worked out with the people involved, in financial circles drawing
-          on Dominic Barter's work.
-        </p>
-      </div>
-    </section>
-
-    <section class="section" aria-labelledby="back">
-      <h2 id="back">How to back it</h2>
-      <div class="column prose">
-        <p class="lede">
-          The pilot is one cohort of about twelve people, in three pods of four, for thirteen weeks.
-          Six things would help it happen.
-        </p>
-        <ol class="numbered">
-          {backIt.map((b) => <li>{b}</li>)}
-        </ol>
-      </div>
-      <dl class="phases">
-        {phases.map((p) => (
-          <div class="field">
-            <dt>{p.name}</dt>
-            <dd>{p.text}</dd>
-          </div>
-        ))}
-      </dl>
-      <div class="notify-wrap">
-        <Notify list="estaleiro" lead="Find me at Klustret, or leave your email and I'll write when there's news." />
-      </div>
+    <section class="section" aria-labelledby="follow">
+      <h2 id="follow">Follow it</h2>
+      <Notify list="estaleiro" lead="Find me at Klustret, or leave your email and I'll write when there's news." />
     </section>
   </div>
 </Base>
@@ -440,10 +317,6 @@ const phases = [
     margin-bottom: var(--space-4);
   }
 
-  .prose > h3 {
-    margin-top: var(--space-8);
-  }
-
   .table-scroll {
     overflow-x: auto;
     max-width: 48rem;
@@ -481,6 +354,53 @@ const phases = [
     border-bottom: var(--stroke-hair) solid var(--line);
   }
 
+  /* Narrow screens: one record per ring, each value under its column name,
+     as in the note tables. Explicit roles keep the table for screen readers. */
+  @media (max-width: 40rem) {
+    .rings,
+    .rings tbody,
+    .rings tr,
+    .rings tbody th,
+    .rings tbody td {
+      display: block;
+    }
+
+    .rings thead {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0 0 0 0);
+      white-space: nowrap;
+      border: 0;
+    }
+
+    .rings tbody tr {
+      border-top: var(--stroke-hair) solid var(--line);
+      padding-block: var(--space-2) var(--space-4);
+    }
+
+    .rings tbody tr:last-child {
+      border-bottom: var(--stroke-hair) solid var(--line);
+    }
+
+    .rings tbody th,
+    .rings tbody td,
+    .rings tbody tr:last-child > * {
+      border: 0;
+      padding: var(--space-2) 0 0;
+    }
+
+    .rings tbody td::before {
+      content: attr(data-label);
+      display: block;
+      font: var(--label);
+      color: var(--ink-soft);
+    }
+  }
+
   .steps {
     padding: 0;
     list-style: none;
@@ -504,55 +424,5 @@ const phases = [
 
   .steps__title {
     font-weight: 600;
-  }
-
-  .bullets,
-  .numbered {
-    padding-left: 1.25em;
-  }
-
-  .bullets li + li,
-  .numbered li + li {
-    margin-top: var(--space-2);
-  }
-
-  .aside {
-    background: var(--raised);
-    padding: var(--space-4);
-  }
-
-  .two-col {
-    display: grid;
-    gap: var(--space-8);
-    max-width: 56rem;
-    margin-block: var(--space-8);
-  }
-
-  .two-col .title {
-    margin-bottom: var(--space-4);
-  }
-
-  @media (min-width: 768px) {
-    .two-col {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
-  }
-
-  .phases {
-    display: grid;
-    gap: var(--space-4);
-    max-width: 56rem;
-    margin-top: var(--space-8);
-  }
-
-  @media (min-width: 768px) {
-    .phases {
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: var(--space-8);
-    }
-  }
-
-  .notify-wrap {
-    margin-top: var(--space-8);
   }
 </style>
